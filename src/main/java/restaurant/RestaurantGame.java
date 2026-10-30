@@ -47,7 +47,7 @@ public final class RestaurantGame {
         if (!waiting.contains(customer)) throw new IllegalArgumentException("Customer is not waiting.");
         waiter.seat(customer, table); waiting.remove(customer);
     }
-    public void order(Customer customer, MenuItem item) { waiter.takeOrder(customer, item); }
+    public void order(Customer customer) { waiter.takeOrder(customer); }
     public void serve(Customer customer) { waiter.serve(customer, turn); servedCount++; }
     public void prepare(Customer customer) { chef.prepare(customer); }
 

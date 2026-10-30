@@ -24,9 +24,13 @@ public final class Customer {
     public boolean isPaid() { return state == State.PAID; }
 
     void seat(Table table) { this.table = table; this.state = State.SEATED; }
-    void placeOrder(MenuItem item) {
+    void placeOrder() {
         if (state != State.SEATED || order != null) throw new IllegalStateException("Customer cannot order now.");
-        order = new Order(item);
+        order = new Order(chooseMenuItem());
+    }
+    /** Reproducible preference: customers cycle Salad, Burger, Pasta by arrival number. */
+    private MenuItem chooseMenuItem() {
+        return MenuItem.values()[(id - 1) % MenuItem.values().length];
     }
     void serve(int turn) { order.serve(); servedTurn = turn; state = State.EATING; }
     void finishEating(int turn) { state = State.READY_TO_PAY; readyToPayTurn = turn; }

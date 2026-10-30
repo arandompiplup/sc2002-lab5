@@ -36,9 +36,10 @@ sequenceDiagram
     CLI->>Game: startTurn(8)
     CLI->>Manager: show current state and choices
     Manager->>CLI: Waiter takes customer #3's order
-    CLI->>Game: order(customer3, PASTA)
-    Game->>Waiter: takeOrder(customer3, PASTA)
-    Waiter->>Customer: placeOrder(PASTA)
+    CLI->>Game: order(customer3)
+    Game->>Waiter: takeOrder(customer3)
+    Waiter->>Customer: placeOrder()
+    Customer->>Customer: chooseMenuItem() returns PASTA
     Customer->>Order: create Order(PASTA)
     Note right of Order: PREPARING, 0/2 units, $18.00
     CLI->>Manager: Chef task choice

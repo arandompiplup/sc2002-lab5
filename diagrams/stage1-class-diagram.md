@@ -12,7 +12,6 @@ classDiagram
         -showState() void
         -waiterChoice() void
         -chefChoice() void
-        -customerChoice(Customer) MenuItem
         -chooseCustomer(String, Predicate) Customer
         -askInt(String) int
     }
@@ -32,7 +31,7 @@ classDiagram
         +startTurn(int) void
         +finishTurn() void
         +seat(Customer, Table) void
-        +order(Customer, MenuItem) void
+        +order(Customer) void
         +serve(Customer) void
         +prepare(Customer) void
         +victory() boolean
@@ -52,7 +51,8 @@ classDiagram
         -int readyToPayTurn
         -int satisfactionAtPayment
         ~seat(Table) void
-        ~placeOrder(MenuItem) void
+        ~placeOrder() void
+        -chooseMenuItem() MenuItem
         ~serve(int) void
         ~finishEating(int) void
         ~pay() void
@@ -84,7 +84,7 @@ classDiagram
         +beginTurn() void
         +available() boolean
         +seat(Customer, Table) void
-        +takeOrder(Customer, MenuItem) void
+        +takeOrder(Customer) void
         +serve(Customer, int) void
     }
 
@@ -129,7 +129,7 @@ classDiagram
     }
 
     RestaurantRush ..> RestaurantGame : presents state and forwards choices
-    RestaurantRush ..> MenuItem : deterministic customer choice
+    RestaurantRush ..> MenuItem : displays ordered dish
     RestaurantGame *-- "2" Table : owns
     RestaurantGame *-- "0..*" Customer : tracks
     RestaurantGame *-- Waiter : owns

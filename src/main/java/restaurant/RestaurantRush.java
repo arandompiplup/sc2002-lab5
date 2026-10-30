@@ -61,8 +61,7 @@ public final class RestaurantRush {
             if (action == 2) {
                 Customer c = chooseCustomer("Customer ID to order for: ", x -> x.state() == Customer.State.SEATED && x.order() == null);
                 if (c == null) continue;
-                MenuItem chosen = customerChoice(c);
-                game.order(c, chosen); System.out.printf("Customer #%d chose %s.%n", c.id(), chosen.displayName()); return;
+                game.order(c); System.out.printf("Customer #%d chose %s.%n", c.id(), c.order().item().displayName()); return;
             }
             if (action == 3) {
                 Customer c = chooseCustomer("Customer ID to serve: ", x -> x.order() != null && x.order().status() == Order.Status.READY);
@@ -71,10 +70,6 @@ public final class RestaurantRush {
             }
             System.out.println("Enter 0, 1, 2, or 3.");
         }
-    }
-    /** Reproducible preference: customers cycle Salad, Burger, Pasta by arrival number. */
-    private MenuItem customerChoice(Customer customer) {
-        return MenuItem.values()[(customer.id() - 1) % MenuItem.values().length];
     }
     private void chefChoice() {
         while (game.chef().available()) {
@@ -89,8 +84,14 @@ public final class RestaurantRush {
         }
     }
     private Customer chooseCustomer(String prompt, java.util.function.Predicate<Customer> valid) {
+        if (game.customers().stream().noneMatch(valid)) {
+            System.out.println("No customers are eligible for this task. Choose another task or Wait.");
+            return null;
+        }
+        System.out.println("Enter 0 to return to the task menu.");
         while (true) {
             int id = askInt(prompt);
+            if (id == 0) return null;
             Customer c = game.customer(id);
             if (c == null) { System.out.println("No customer with that ID."); continue; }
             if (!valid.test(c)) { System.out.println("That customer is not eligible for this task."); continue; }

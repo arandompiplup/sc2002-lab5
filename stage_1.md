@@ -13,13 +13,19 @@ java -cp out restaurant.RestaurantRush
 
 The game uses no network access or external dependencies.
 
+Run the CLI regression checks with Java 17+ and Python 3:
+
+```sh
+python3 tests/stage1_smoke.py
+```
+
 ## Stage 1 rules implemented
 
 - The game runs all 18 turns. Arrivals occur at the start of turns 1, 4, 7, 10, 13, and 16.
 - There are two tables, one Waiter task per turn, one Chef preparation unit per turn, and one automatic Cashier payment per turn.
 - Menu: Salad ($9.00, 1 preparation unit), Burger ($15.00, 1 unit), and Pasta ($18.00, 2 units). Money is stored as integer cents.
-- Customers deterministically choose their dish when the manager takes their order: customer IDs cycle Salad, Burger, Pasta. The manager chooses which customer to seat, order for, serve, and prepare.
-- Invalid actions explain the issue and allow another choice without consuming the staff task.
+- Customers deterministically choose their dish when the manager takes their order: customer IDs cycle Salad, Burger, Pasta. The choice is made inside `Customer`, not by the CLI. The manager chooses which customer to seat, order for, serve, and prepare.
+- Invalid actions explain the issue and allow another choice without consuming the staff task. Tasks with no eligible customers return to the task menu; enter 0 at a customer-ID prompt to return to that menu.
 - The Waiter acts before the Chef. The Chef can work on an order taken this turn, but an order that becomes READY cannot be served until a later turn.
 - Customers eat for one full turn after service, become READY_TO_PAY, and can pay on the following turn. The table is freed on payment.
 - Waiting and seated customers lose 8 satisfaction at turn end. At zero they leave without paying; unfinished orders are cancelled.
