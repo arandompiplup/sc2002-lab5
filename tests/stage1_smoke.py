@@ -17,7 +17,7 @@ def run_game(classes, choices, expected):
         timeout=10,
         check=True,
     )
-    assert result.stdout.count("/18 |") == 18, result.stdout
+    assert result.stdout.count(" / 18") == 18, result.stdout
     for text in expected:
         assert text in result.stdout, result.stdout
 
@@ -35,16 +35,18 @@ def main():
             10: [3, 3], 11: [1, 1, 2], 12: [2, 4], 13: [3, 4],
         }
         chef = {2: [1, 1], 5: [1, 2], 8: [1, 3], 9: [1, 3], 12: [1, 4]}
-        victory = "Final result: VICTORY - 4 paid, revenue $51.00, average paid satisfaction 80.0, 18 turns used."
+        victory = "FINAL RESULT: VICTORY"
 
         def plan():
             return [choice for turn in range(1, 19)
                     for choice in waiter.get(turn, [0]) + chef.get(turn, [0])]
 
-        run_game(classes, plan(), [victory, "Customer #3 chose Pasta."])
+        run_game(classes, plan(), [victory, "Paid customers        4", "Revenue               $51.00",
+                                    "Avg paid satisfaction 80.0", "Customer #3 chose Pasta."])
         run_game(classes, [0] * 36, [
-            "Final result: DEFEAT - 0 paid, revenue $0.00, average paid satisfaction N/A, 18 turns used.",
-            "End of turn 18: served 0, departures 2",
+            "FINAL RESULT: DEFEAT", "Paid customers        0",
+            "Revenue               $0.00", "Avg paid satisfaction N/A",
+            "End of turn 18\n  Served: 0  |  Unhappy departures: 2",
         ])
 
         # Try unavailable Order/Serve/Prepare tasks, then continue normally.
