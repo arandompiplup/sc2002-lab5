@@ -1,6 +1,6 @@
 # Restaurant Rush Stage 2 - UML class diagram
 
-This proposed diagram extends the Stage 1 diagram with the changes in `stage_2_plan.md`; Stage 2 is not implemented yet. Visibility markers use UML notation: `+` public, `-` private, `#` protected.
+This diagram extends the Stage 1 diagram with the implemented customer changes described in `stage_2_plan.md`. Visibility markers use UML notation: `+` public, `-` private, `#` protected.
 
 ```mermaid
 classDiagram
@@ -183,5 +183,4 @@ classDiagram
 - **Polymorphism:** `Customer` retains Regular defaults (loss 8, full price, ID-based dish cycle). `VIPCustomer` overrides loss to 5 and billing to 90% of full price. `CriticCustomer` overrides loss to 12 and always chooses Pasta. Shared lifecycle methods call these overrides through `Customer` references.
 - **Encapsulation:** `Order` stores a private final bill fixed at ordering. `Customer.placeOrder()` selects the item, calls `calculateBillCents()`, and creates the order; the cashier path uses the stored amount.
 - **Stage 1 continuity:** the existing classes, associations, staff responsibilities, and turn flow are preserved. Only arrival registration, customer behaviour, order billing, and CLI labels change. The queue relationship is a subset of tracked customers, not separate ownership. `CustomerState` and `OrderStatus` label the nested enums `Customer.State` and `Order.Status`.
-- The Stage 2 additions are proposed; verify this diagram against the implementation before tagging `stage-2`. The final submission diagram must eventually match Stage 3.
 
