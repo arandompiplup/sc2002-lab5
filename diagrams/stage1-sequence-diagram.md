@@ -55,7 +55,7 @@ sequenceDiagram
     Note over CLI,Game: Turn 9 - Pasta becomes READY
     CLI->>Game: startTurn(9)
     CLI->>Manager: show current state and choices
-    Manager->>CLI: Waiter waits; Chef prepares customer #3's order
+    Manager->>CLI: Waiter waits, Chef prepares customer #3's order
     CLI->>Game: prepare(customer3)
     Game->>Chef: prepare(customer3)
     Chef->>Order: prepareOneUnit()
@@ -75,7 +75,7 @@ sequenceDiagram
     Waiter->>Customer: serve(10)
     Customer->>Order: serve()
     Order->>Order: status = SERVED
-    Note right of Customer: state=EATING; satisfaction stops falling
+    Note right of Customer: state=EATING, satisfaction stops falling
     CLI->>Game: finishTurn()
     Note over Game,Customer: Served this turn, so eating does not finish yet
 
@@ -83,7 +83,7 @@ sequenceDiagram
     CLI->>Game: startTurn(11)
     CLI->>Game: finishTurn()
     Game->>Customer: finishEating(11)
-    Customer->>Customer: state = READY_TO_PAY; record readyToPayTurn=11
+    Customer->>Customer: state = READY_TO_PAY, record readyToPayTurn=11
     Game->>Cashier: collectOldest(customers, turn=11)
     Cashier-->>Game: no eligible payer (readyToPayTurn is not earlier than turn)
 
@@ -107,7 +107,7 @@ sequenceDiagram
         CLI->>Game: finishTurn()
     end
     CLI->>Game: victory()
-    Game->>Game: count PAID customers; calculate paid satisfaction average
+    Game->>Game: count PAID customers, calculate paid satisfaction average
     alt At least 4 paid AND revenue >= $45.00 AND average >= 60
         Game-->>CLI: true - VICTORY
     else Any target is missed
