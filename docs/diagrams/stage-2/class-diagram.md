@@ -1,6 +1,6 @@
 # Restaurant Rush Stage 2 - UML class diagram
 
-This diagram extends the Stage 1 diagram with the implemented customer changes described in `stage_2_plan.md`. Visibility markers use UML notation: `+` public, `-` private, `#` protected.
+This diagram extends the Stage 1 diagram with the implemented customer changes described in `docs/stages/stage-2-plan.md`. Visibility markers use UML notation: `+` public, `-` private, `#` protected.
 
 ```mermaid
 classDiagram

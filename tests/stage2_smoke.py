@@ -29,7 +29,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="restaurant-stage2-") as classes:
         subprocess.run(
             ["javac", "-Xlint:all", "-d", classes,
-             *map(str, sorted((ROOT / "src/main/java/restaurant").glob("*.java"))), str(ROOT / "tests/CustomerBehaviourTest.java")],
+             *map(str, sorted((ROOT / "src/main/java/restaurant").glob("*.java"))), str(ROOT / "src/test/java/restaurant/CustomerBehaviourTest.java")],
             check=True,
         )
         subprocess.run(['java', '-ea', '-cp', classes, 'restaurant.CustomerBehaviourTest'], check=True, timeout=10)

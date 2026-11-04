@@ -16,7 +16,7 @@ java -cp out restaurant.RestaurantRush
 Run the domain checks and CLI regressions:
 
 ```powershell
-javac -Xlint:all -d out src/main/java/restaurant/*.java tests/CustomerBehaviourTest.java
+javac -Xlint:all -d out src/main/java/restaurant/*.java src/test/java/restaurant/CustomerBehaviourTest.java
 java -ea -cp out restaurant.CustomerBehaviourTest
 python tests/stage2_smoke.py
 ```
@@ -25,13 +25,13 @@ These checks have not been executed in the current environment because Java and 
 
 ## Reproducible runs
 
-Use the Waiter and Chef actions from the [Stage 1 victory notes](stage_1.md). The same actions now produce an expected four paid customers, $49.50 revenue, and average satisfaction 78.5: #1 pays on turn 5 at satisfaction 84, VIP #2 on turn 8 at 90, Critic #3 on turn 12 at 64, and #4 on turn 15 at 76. Continue through turn 18 for Victory.
+Use the Waiter and Chef actions from the [Stage 1 victory notes](stage-1.md). The same actions now produce an expected four paid customers, $49.50 revenue, and average satisfaction 78.5: #1 pays on turn 5 at satisfaction 84, VIP #2 on turn 8 at 90, Critic #3 on turn 12 at 64, and #4 on turn 15 at 76. Continue through turn 18 for Victory.
 
 For Defeat, wait with both staff throughout all 18 turns. Expected: no payments, $0.00 revenue, average N/A, and two unhappy departures.
 
 ## Design
 
-- [Class diagram](diagrams/stage2-class-diagram.md)
-- [Sequence diagram](diagrams/stage2-sequence-diagram.md)
+- [Class diagram](../diagrams/stage-2/class-diagram.md)
+- [Sequence diagram](../diagrams/stage-2/sequence-diagram.md)
 
 Customer overrides dispatch patience, pricing, and preferences. Arrival setup selects types only; the controller has no type-based behaviour logic. The existing staff and turn algorithm are retained.

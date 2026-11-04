@@ -42,7 +42,7 @@ These are input plans for capturing test notes or a demonstration. The game alwa
 
 ## Stage 1 diagrams
 
-- [Class diagram](diagrams/stage1-class-diagram.md)
-- [Sequence diagram](diagrams/stage1-sequence-diagram.md)
+- [Class diagram](../diagrams/stage-1/class-diagram.md)
+- [Sequence diagram](../diagrams/stage-1/sequence-diagram.md)
 
-See the repository [README](README.md) for Mermaid preview instructions and general project information.
+See the repository [README](../../README.md) for Mermaid preview instructions and general project information.
