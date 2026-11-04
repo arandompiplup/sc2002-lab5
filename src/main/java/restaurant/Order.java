@@ -4,14 +4,20 @@ public final class Order {
     public enum Status { PREPARING, READY, SERVED, PAID, CANCELLED }
 
     private final MenuItem item;
+    private final int billCents;
     private int unitsPrepared;
     private Status status = Status.PREPARING;
 
-    public Order(MenuItem item) { this.item = item; }
+    public Order(MenuItem item) { this(item, item.priceCents()); }
+    public Order(MenuItem item, int billCents) {
+        if (billCents < 0) throw new IllegalArgumentException("Bill cannot be negative.");
+        this.item = item;
+        this.billCents = billCents;
+    }
     public MenuItem item() { return item; }
     public int unitsPrepared() { return unitsPrepared; }
     public Status status() { return status; }
-    public int billCents() { return item.priceCents(); }
+    public int billCents() { return billCents; }
 
     public void prepareOneUnit() {
         if (status != Status.PREPARING) throw new IllegalStateException("Order is not being prepared.");

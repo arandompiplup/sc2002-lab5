@@ -1,6 +1,7 @@
 package restaurant;
 
-public final class Customer {
+/** Regular customer defaults and the shared lifecycle for all customer types. */
+public class Customer {
     public enum State { WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT }
 
     private final int id;
@@ -22,20 +23,24 @@ public final class Customer {
     public int readyToPayTurn() { return readyToPayTurn; }
     public int satisfactionAtPayment() { return satisfactionAtPayment; }
     public boolean isPaid() { return state == State.PAID; }
+    public String typeName() { return "Regular"; }
+    protected int waitingLoss() { return 8; }
+    protected int calculateBillCents(int baseCents) { return baseCents; }
 
     void seat(Table table) { this.table = table; this.state = State.SEATED; }
     void placeOrder() {
         if (state != State.SEATED || order != null) throw new IllegalStateException("Customer cannot order now.");
-        order = new Order(chooseMenuItem());
+        MenuItem item = chooseMenuItem();
+        order = new Order(item, calculateBillCents(item.priceCents()));
     }
     /** Reproducible preference: customers cycle Salad, Burger, Pasta by arrival number. */
-    private MenuItem chooseMenuItem() {
+    protected MenuItem chooseMenuItem() {
         return MenuItem.values()[(id - 1) % MenuItem.values().length];
     }
     void serve(int turn) { order.serve(); servedTurn = turn; state = State.EATING; }
     void finishEating(int turn) { state = State.READY_TO_PAY; readyToPayTurn = turn; }
     void pay() { order.markPaid(); state = State.PAID; satisfactionAtPayment = satisfaction; table.release(this); table = null; }
-    void loseSatisfaction() { satisfaction = Math.max(0, satisfaction - 8); }
+    void loseSatisfaction() { satisfaction = Math.max(0, satisfaction - waitingLoss()); }
     void leave() {
         if (order != null) order.cancel();
         state = State.LEFT;
