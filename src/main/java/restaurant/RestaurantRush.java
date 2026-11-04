@@ -2,7 +2,7 @@ package restaurant;
 
 import java.util.*;
 
-/** Command-line boundary for the Stage 1 game. */
+/** Command-line boundary for the Stage 2 game. */
 public final class RestaurantRush {
     private final Scanner input = new Scanner(System.in);
     private final RestaurantGame game = new RestaurantGame();
@@ -10,7 +10,7 @@ public final class RestaurantRush {
     public static void main(String[] args) { new RestaurantRush().play(); }
 
     private void play() {
-        System.out.println("\nRESTAURANT RUSH  /  Stage 1");
+        System.out.println("\nRESTAURANT RUSH  /  Stage 2");
         for (int turn = 1; turn <= RestaurantGame.MAX_TURNS; turn++) {
             game.startTurn(turn);
             showState();
@@ -30,13 +30,13 @@ public final class RestaurantRush {
         if (game.waiting().isEmpty()) System.out.println("  None");
         for (int i = 0; i < game.waiting().size(); i++) {
             Customer c = game.waiting().get(i);
-            System.out.printf("  %d. Customer #%-2d  |  Satisfaction: %d%n", i + 1, c.id(), c.satisfaction());
+            System.out.printf("  %d. Customer #%-2d (%s)  |  Satisfaction: %d%n", i + 1, c.id(), c.typeName(), c.satisfaction());
         }
         System.out.println("\n  TABLES");
         for (Table t : game.tables()) {
             Customer c = t.occupant();
             if (c == null) System.out.printf("  Table %d   Free%n", t.number());
-            else System.out.printf("  Table %d   Customer #%d  |  Satisfaction: %d%n            %s  |  %s%n", t.number(), c.id(), c.satisfaction(), c.state(), customerStatus(c));
+            else System.out.printf("  Table %d   Customer #%d (%s)  |  Satisfaction: %d%n            %s  |  %s%n", t.number(), c.id(), c.typeName(), c.satisfaction(), c.state(), customerStatus(c));
         }
         System.out.println("\n  STAFF");
         System.out.println("  Waiter    " + (game.waiter().available() ? "1 task available" : "Used"));
@@ -45,7 +45,8 @@ public final class RestaurantRush {
     }
     private String customerStatus(Customer c) {
         if (c.order() == null) return "no order";
-        return c.order().item().displayName() + " - " + c.order().status() + " (" + c.order().unitsPrepared() + "/" + c.order().item().preparationUnits() + " units)";
+        return c.order().item().displayName() + " - " + c.order().status() + " (" + c.order().unitsPrepared() + "/" + c.order().item().preparationUnits() + " units)"
+                + String.format(Locale.ROOT, " | Bill: $%.2f", c.order().billCents() / 100.0);
     }
     private void waiterChoice() {
         while (game.waiter().available()) {
@@ -66,7 +67,7 @@ public final class RestaurantRush {
             if (action == 2) {
                 Customer c = chooseCustomer("Customer ID to order for", x -> x.state() == Customer.State.SEATED && x.order() == null);
                 if (c == null) continue;
-                game.order(c); System.out.printf("  Customer #%d chose %s.%n", c.id(), c.order().item().displayName()); return;
+                game.order(c); System.out.printf("  Customer #%d chose %s. %s bill: $%.2f%n", c.id(), c.order().item().displayName(), c.typeName(), c.order().billCents() / 100.0); return;
             }
             if (action == 3) {
                 Customer c = chooseCustomer("Customer ID to serve", x -> x.order() != null && x.order().status() == Order.Status.READY);
@@ -96,8 +97,8 @@ public final class RestaurantRush {
         }
         System.out.println("\n  ELIGIBLE CUSTOMERS");
         for (Customer c : eligible) {
-            System.out.printf("  ID %-3d  Table %d  |  Satisfaction: %d%n          %s%n",
-                    c.id(), c.table().number(), c.satisfaction(), customerStatus(c));
+            System.out.printf("  ID %-3d (%s)  Table %d  |  Satisfaction: %d%n          %s%n",
+                    c.id(), c.typeName(), c.table().number(), c.satisfaction(), customerStatus(c));
         }
         System.out.println();
         System.out.println("  Enter 0 to return to the task menu.");
