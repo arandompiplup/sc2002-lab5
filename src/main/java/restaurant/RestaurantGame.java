@@ -2,7 +2,7 @@ package restaurant;
 
 import java.util.*;
 
-/** Stage 1 game rules and state. The console class only gathers choices and renders this state. */
+/** Stage 2 game rules and state. The console class only gathers choices and renders this state. */
 public final class RestaurantGame {
     public static final int MAX_TURNS = 18;
     private final List<Table> tables = List.of(new Table(1), new Table(2));
@@ -33,9 +33,17 @@ public final class RestaurantGame {
         this.turn = turn;
         waiter.beginTurn(); chef.beginTurn();
         if (List.of(1, 4, 7, 10, 13, 16).contains(turn)) {
-            Customer customer = new Customer(customers.size() + 1);
+            Customer customer = createCustomer(customers.size() + 1);
             customers.add(customer); waiting.addLast(customer);
         }
+    }
+    /** Fixed arrival registration; customer objects supply all behavioural differences. */
+    private Customer createCustomer(int id) {
+        return switch (id) {
+            case 2 -> new VIPCustomer(id);
+            case 3 -> new CriticCustomer(id);
+            default -> new Customer(id);
+        };
     }
     public Customer waitingCustomer(int oneBasedIndex) {
         if (oneBasedIndex < 1 || oneBasedIndex > waiting.size()) return null;
