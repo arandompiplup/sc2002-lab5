@@ -1,5 +1,7 @@
 package restaurant.game;
 
+import restaurant.model.*;
+
 import java.util.List;
 
 /**

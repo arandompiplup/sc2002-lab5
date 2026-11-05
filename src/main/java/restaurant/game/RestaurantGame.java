@@ -1,5 +1,7 @@
 package restaurant.game;
 
+import restaurant.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import restaurant.model.Cashier;
