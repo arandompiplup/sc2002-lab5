@@ -1,0 +1,48 @@
+@startuml stage1-sequence-diagram
+!include style.puml
+title sd Stage1CustomerService\nScenario map: customer 3 orders Pasta
+caption Read the three referenced interactions in order; each is exported separately.
+skinparam maxMessageSize 220
+actor Manager as M
+participant "console : RestaurantRush\n<<boundary>>" as UI
+participant "game : RestaurantGame\n<<control>>" as G
+
+note over UI,G
+  The game has completed turns 1-6.
+  This scenario is part of the documented victory run:
+  four paid customers, $51.00, average satisfaction 80.
+end note
+ref over M,G : S1 Arrival, seating and order (turns 7-8)
+ref over M,G : S2 Preparation and service (turns 8-10)
+ref over UI,G : S3 Eating and payment (turns 11-12)
+note over UI,G
+  Service priority on turn 10 preserves satisfaction 76.
+  Delaying service to turn 11 would cost another 8 points
+  and postpone the payment from turn 12 to turn 13.
+end note
+loop turn = 13..18
+  UI -> G : startTurn()
+  activate G
+  G --> UI : return
+  deactivate G
+  M -> UI : choose Waiter and Chef tasks or Wait
+  ref over UI,G : Existing phase-checked task protocol (see S1/S2)
+  UI -> G : finishTurn()
+  activate G
+  G --> UI : return
+  deactivate G
+end
+note right of G : phase = FINISHED after turn 18
+UI -> G : victory()
+activate G
+G -> G : paidCount()\naveragePaidSatisfaction()
+alt paid >= 4 and revenue >= 4500 and average >= 60
+  G --> UI : true
+  UI --> M : display VICTORY and totals
+else any target fails
+  G --> UI : false
+  UI --> M : display DEFEAT and totals
+end
+deactivate G
+footer Ch. 7: ref, loop and alt fragments | Ref names identify the companion sequence diagrams.
+@enduml

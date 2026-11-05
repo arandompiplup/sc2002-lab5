@@ -1,0 +1,7 @@
+@startuml stage2
+!$STAGE = 2
+title Restaurant Rush - proposed Stage 2\nVIP and Critic extend the shared customer lifecycle
+!include ../shared/style.puml
+!include ../shared/class-model.puml
+caption Six arrivals still; include at least one VIP and one Critic. Dispatch behaviour through Customer, without controller type checks.
+@enduml

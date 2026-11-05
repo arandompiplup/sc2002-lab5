@@ -1,0 +1,148 @@
+@startuml stage1-class-diagram
+!pragma layout smetana
+!include style.puml
+title Restaurant Rush - Stage 1\nCore class relationships
+caption Key attributes and operations; supporting views and enums are in the companion diagram.
+skinparam nodesep 48
+skinparam ranksep 65
+hide circle
+hide empty members
+
+class RestaurantRush <<boundary>> {
+  - game : RestaurantGameInterface
+  - input : Scanner
+  - output : PrintStream
+  + RestaurantRush(game: RestaurantGameInterface, input: Scanner, output: PrintStream)
+  + play() : void
+}
+interface RestaurantGameInterface <<interface>> {
+  + startTurn() : void
+  + seat(customerId: int, tableNumber: int) : void
+  + order(customerId: int) : void
+  + serve(customerId: int) : void
+  + prepare(customerId: int) : void
+  + waitWaiter() : void
+  + waitChef() : void
+  + finishTurn() : void
+  + eligibleFor(task: WaiterTask) : List<CustomerView>
+  + eligibleForPreparation() : List<CustomerView>
+  + victory() : boolean
+}
+class RestaurantGame <<control>> {
+  {static} + MAX_TURNS : int = 18
+  - turn : int = 0
+  - phase : TurnPhase = BETWEEN_TURNS
+  - revenueCents : int = 0
+  - servedCount : int = 0
+  - departures : int = 0
+  + startTurn() : void
+  + finishTurn() : void
+  + paidCount() : int
+  + averagePaidSatisfaction() : double
+  + victory() : boolean
+  - requirePhase(expected: TurnPhase) : void
+}
+abstract class Staff {
+  - used : boolean
+  + beginTurn() : void
+  + available() : boolean
+  # requireAvailable() : void
+  # recordSuccessfulTask() : void
+}
+class Waiter {
+  + seat(customer: Customer, table: Table) : void
+  + takeOrder(customer: Customer) : void
+  + serve(customer: Customer, turn: int) : void
+}
+class Chef {
+  + prepare(customer: Customer, turn: int) : void
+}
+class Cashier {
+  + collectPayment(customers: List<Customer>, turn: int) : int
+}
+abstract class Customer <<entity>> {
+  - id : int
+  - satisfaction : int = 100
+  - state : Customer.State = WAITING
+  - servedTurn : int = -1
+  - readyToPayTurn : int = -1
+  - satisfactionAtPayment : int = -1
+  + canOrder() : boolean
+  + canBeServed(turn: int) : boolean
+  + canPay(turn: int) : boolean
+  + placeOrder() : void
+  + receiveFood(turn: int) : void
+  + finishEating(turn: int) : void
+  + pay(turn: int) : int
+  + waitAtTurnEnd() : void
+  {abstract} # satisfactionLoss() : int
+  {abstract} # chooseMenuItem() : MenuItemInterface
+}
+class RegularCustomer {
+  + RegularCustomer(id: int)
+  # satisfactionLoss() : int
+  # chooseMenuItem() : MenuItemInterface
+}
+class Table <<entity>> {
+  - number : int
+  + isFree() : boolean
+  + seat(customer: Customer) : void
+  ~ release(customer: Customer) : void
+}
+class Order <<entity>> {
+  - billCents : int
+  - unitsPrepared : int = 0
+  - readyTurn : int = -1
+  - status : Order.Status = PREPARING
+  + Order(item: MenuItemInterface)
+  + prepareOneUnit(turn: int) : void
+  + canBeServed(turn: int) : boolean
+  + serve(turn: int) : void
+  + markPaid() : void
+  + cancel() : void
+  + billCents() : int
+}
+interface MenuItemInterface <<interface>> {
+  + displayName() : String
+  + priceCents() : int
+  + preparationUnits() : int
+}
+enum MenuItem <<enumeration>> {
+  SALAD
+  BURGER
+  PASTA
+  --
+  - displayName : String
+  - priceCents : int
+  - preparationUnits : int
+}
+
+RestaurantRush -down-> "1" RestaurantGameInterface : game
+RestaurantGameInterface <|.. RestaurantGame
+RestaurantGame "1" *-down- "1" Waiter : waiter
+RestaurantGame "1" *-down- "1" Chef : chef
+RestaurantGame "1" *-down- "1" Cashier : cashier
+Staff <|-down- Waiter
+Staff <|-down- Chef
+Staff <|-down- Cashier
+RestaurantGame "1" *-down- "0..6" Customer : customers
+RestaurantGame "1" *-down- "2" Table : tables
+Customer "0..1" -right- "0..1" Table : table / occupant
+Customer <|-down- RegularCustomer
+Customer "1" *-down- "0..1" Order : order
+Order -right-> "1" MenuItemInterface : item
+MenuItemInterface <|.. MenuItem
+
+legend bottom left
+  |= Course notation |= Meaning |
+  | + / - / # / ~ | public / private / protected / package |
+  | Italic class or operation | abstract |
+  | Solid line + hollow triangle | generalisation |
+  | Dashed line + hollow triangle | interface realisation |
+  | Filled diamond at owner | composition |
+  | Plain line | association |
+  Association ends represent reference fields; those fields are not repeated in compartments.
+  The waiting list is an ordered subset of customers, not a second ownership relationship.
+endlegend
+footer SC2002 Ch. 6 pp. 18-25, 30, 40, 42 | Principal runtime types only; see diagram notes for omissions.
+@enduml

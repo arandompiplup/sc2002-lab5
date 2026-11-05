@@ -1,0 +1,83 @@
+@startuml 03-payment
+!include ../shared/style.puml
+title sd S3_EatingAndPayment\nCustomer 3 - turns 11 and 12
+skinparam maxMessageSize 220
+participant "console : RestaurantRush\n<<boundary>>" as UI
+participant "game : RestaurantGame\n<<control>>" as G
+participant "cashier : Cashier" as K
+participant "c3 : RegularCustomer\n<<entity>>" as C
+participant "o3 : Order\n<<entity>>" as O
+participant "table1 : Table\n<<entity>>" as T
+note over G,T : S2 served Pasta on turn 10; satisfaction = 76; table1 remains occupied.
+
+== Turn 11 - eating completes ==
+UI -> G : startTurn()
+UI -> G : waitWaiter()
+UI -> G : waitChef()
+UI -> G : finishTurn()
+activate G
+G -> C : finishEating(11)
+activate C
+note right of C : [servedTurn < 11]\nstate = READY_TO_PAY\nreadyToPayTurn = 11
+C --> G : return
+deactivate C
+G -> K : collectPayment(customers, 11)
+activate K
+K -> K : requireAvailable()
+K -> C : canPay(11)
+C --> K : false [readyToPayTurn = 11]
+K --> G : 0 [no other eligible payer]
+deactivate K
+G -> C : waitAtTurnEnd()
+C --> G : return [READY_TO_PAY; no loss]
+G --> UI : return
+deactivate G
+
+== Turn 12 - payment releases the table ==
+UI -> G : startTurn()
+UI -> G : waitWaiter()
+UI -> G : waitChef()
+UI -> G : finishTurn()
+activate G
+G -> C : finishEating(12)
+C --> G : return [already READY_TO_PAY]
+G -> K : collectPayment(customers, 12)
+activate K
+K -> K : requireAvailable()
+K -> C : canPay(12)
+C --> K : true [readyToPayTurn < 12]
+note over K,C
+  Other customers' eligibility calls are abbreviated.
+  c3 has the earliest eligible readyToPayTurn.
+  Arrival ID breaks ties.
+end note
+K -> C : pay(12)
+activate C
+C -> C : canPay(12) = true
+C -> O : billCents()
+O --> C : 1800
+C -> O : markPaid()
+activate O
+note right of O : status = PAID
+O --> C : return
+deactivate O
+C -> T : release(c3)
+activate T
+note right of T : occupant = null
+T --> C : return
+deactivate T
+note right of C : table = null; state = PAID\nsatisfactionAtPayment = 76
+C --> K : 1800
+deactivate C
+K -> K : recordSuccessfulTask()
+K --> G : 1800
+deactivate K
+G -> G : revenueCents += 1800
+G -> C : waitAtTurnEnd()
+C --> G : return [PAID; no loss]
+G -> G : phase = BETWEEN_TURNS
+G --> UI : return
+deactivate G
+ref over UI,G : Return to Stage1CustomerService: turns 13-18 and result check
+footer Ch. 7: call/return ordering | No revenue before payment; exactly one payment per cashier turn.
+@enduml

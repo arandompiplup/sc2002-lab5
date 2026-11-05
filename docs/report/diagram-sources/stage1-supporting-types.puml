@@ -1,0 +1,73 @@
+@startuml stage1-supporting-types
+!pragma layout smetana
+!include style.puml
+title Restaurant Rush - Stage 1\nRead-only boundary data and enum types
+hide circle
+hide empty members
+skinparam nodesep 50
+skinparam ranksep 50
+
+class RestaurantGame <<control>> {
+  + customers() : List<CustomerView>
+  + waiting() : List<CustomerView>
+  + tables() : List<TableView>
+}
+class CustomerView <<immutable>> {
+  - id : int
+  - satisfaction : int
+  - state : Customer.State
+  - tableNumber : int
+  - dishName : String
+  - orderStatus : Order.Status
+  - unitsPrepared : int
+  - preparationUnits : int
+  ~ CustomerView(customer: Customer)
+  + hasOrder() : boolean
+}
+class TableView <<immutable>> {
+  - number : int
+  ~ TableView(table: Table)
+  + isFree() : boolean
+}
+enum "Customer.State" as CustomerState <<enumeration>> {
+  WAITING
+  SEATED
+  EATING
+  READY_TO_PAY
+  PAID
+  LEFT
+}
+enum "Order.Status" as OrderStatus <<enumeration>> {
+  PREPARING
+  READY
+  SERVED
+  PAID
+  CANCELLED
+}
+enum TurnPhase <<enumeration>> {
+  BETWEEN_TURNS
+  WAITER
+  CHEF
+  END_OF_TURN
+  FINISHED
+}
+enum WaiterTask <<enumeration>> {
+  SEAT
+  ORDER
+  SERVE
+}
+RestaurantGame ..> CustomerView : <<create>>
+RestaurantGame ..> TableView : <<create>>
+TableView "1" *-- "0..1" CustomerView : occupant
+CustomerView --> CustomerState : state
+CustomerView --> OrderStatus : orderStatus
+RestaurantGame --> TurnPhase : phase
+RestaurantGame ..> WaiterTask : eligibleFor(task)
+TurnPhase -[hidden]right- WaiterTask
+note bottom of CustomerView
+  Copies values rather than exposing live entities.
+  All fields are final; accessors do not mutate state.
+  No Customer, Order, Table or Staff reference is retained.
+end note
+footer SC2002 Ch. 6 pp. 24-25, 34-36, 40 | Scalar accessors omitted for readability.
+@enduml

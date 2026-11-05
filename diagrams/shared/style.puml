@@ -1,0 +1,45 @@
+' Shared print-friendly notation. No network includes or theme dependency.
+skinparam backgroundColor white
+skinparam defaultFontName SansSerif
+skinparam defaultFontSize 14
+skinparam shadowing false
+skinparam roundcorner 0
+skinparam dpi 120
+skinparam ArrowColor #263238
+skinparam ArrowThickness 1
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam classBackgroundColor white
+skinparam classBorderColor #263238
+skinparam packageBackgroundColor white
+skinparam packageBorderColor #78909C
+skinparam noteBackgroundColor #FFFBEA
+skinparam noteBorderColor #B5A568
+skinparam noteFontColor #263238
+skinparam stereotypeFontSize 12
+skinparam titleFontSize 20
+skinparam titleFontColor #18354A
+skinparam titleFontStyle bold
+skinparam footerFontSize 11
+skinparam footerFontColor #546E7A
+skinparam sequence {
+  ParticipantBackgroundColor #F1F5F8
+  ParticipantBorderColor #455A64
+  ParticipantFontColor #172F40
+  ActorBackgroundColor white
+  ActorBorderColor #455A64
+  LifeLineBorderColor #90A4AE
+  LifeLineBackgroundColor white
+  ActivationBorderColor #455A64
+  ActivationBackgroundColor #E8F0F5
+  GroupBackgroundColor white
+  GroupBodyBackgroundColor white
+  GroupBorderColor #607D8B
+  ReferenceBackgroundColor #F1F5F8
+  ReferenceBorderColor #607D8B
+  DividerBackgroundColor #E8F0F5
+  DividerBorderColor #607D8B
+  MessageAlign left
+  BoxPadding 10
+}
+hide footbox

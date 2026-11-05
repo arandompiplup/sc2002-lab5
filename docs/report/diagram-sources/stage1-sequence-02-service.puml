@@ -1,0 +1,100 @@
+@startuml stage1-sequence-02-service
+!include style.puml
+title sd S2_PreparationAndService\nCustomer 3 - turns 8 through 10
+skinparam maxMessageSize 220
+actor Manager as M
+participant "console : RestaurantRush\n<<boundary>>" as UI
+participant "game : RestaurantGame\n<<control>>" as G
+participant "chef : Chef" as H
+participant "waiter : Waiter" as W
+participant "c3 : RegularCustomer\n<<entity>>" as C
+participant "o3 : Order\n<<entity>>" as O
+
+note over G,O : S1 has placed Pasta; turn 8, phase = CHEF; satisfaction = 92.
+loop turn t in {8, 9}
+  opt t = 9
+    UI -> G : startTurn()
+    M -> UI : Waiter waits
+    UI -> G : waitWaiter()
+  end
+  M -> UI : prepare customer 3's order
+  UI -> G : prepare(3)
+  activate G
+  G -> G : requirePhase(CHEF)
+  G -> H : prepare(c3, t)
+  activate H
+  H -> H : requireAvailable()
+  H -> C : prepareFood(t)
+  activate C
+  C -> C : canPrepare() = true
+  C -> O : prepareOneUnit(t)
+  activate O
+  alt t = 8
+    note right of O : unitsPrepared = 1\nstatus = PREPARING
+  else t = 9
+    note right of O : unitsPrepared = 2\nstatus = READY; readyTurn = 9
+  end
+  O --> C : return
+  deactivate O
+  C --> H : return
+  deactivate C
+  H -> H : recordSuccessfulTask()
+  H --> G : return
+  deactivate H
+  G -> G : phase = END_OF_TURN
+  G --> UI : return
+  deactivate G
+  UI -> G : finishTurn()
+  activate G
+  ref over G,C : Eating/payment checks; no payment for c3
+  G -> C : waitAtTurnEnd()
+  activate C
+  C -> C : satisfactionLoss() = 8
+  C --> G : return
+  deactivate C
+  G --> UI : return
+  deactivate G
+end
+note over G,O
+  End turn 9: READY, satisfaction = 76.
+  Waiter already acted before Chef; service cannot occur on turn 9.
+end note
+
+== Turn 10 - manager chooses service priority ==
+UI -> G : startTurn()
+M -> UI : serve customer 3
+UI -> G : serve(3)
+activate G
+G -> G : requirePhase(WAITER)
+G -> W : serve(c3, 10)
+activate W
+W -> W : requireAvailable()
+W -> C : receiveFood(10)
+activate C
+C -> O : canBeServed(10)
+O --> C : true [READY and readyTurn < 10]
+C -> O : serve(10)
+activate O
+note right of O : status = SERVED
+O --> C : return
+deactivate O
+note right of C : state = EATING\nservedTurn = 10
+C --> W : return
+deactivate C
+W -> W : recordSuccessfulTask()
+W --> G : return
+deactivate W
+G -> G : servedCount++; phase = CHEF
+G --> UI : return
+deactivate G
+UI -> G : waitChef()
+UI -> G : finishTurn()
+activate G
+G -> C : finishEating(10)
+C --> G : return [servedTurn = turn; still EATING]
+ref over G,C : No eligible payment; waitAtTurnEnd() causes no loss
+G --> UI : return
+deactivate G
+ref over UI,O : Continue with S3 Eating and payment
+footer Ch. 7: guarded loop / opt / alt fragments | Manager service priority affects satisfaction and payment timing.
+@enduml

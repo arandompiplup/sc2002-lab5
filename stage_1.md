@@ -63,8 +63,11 @@ Choose Wait for both staff on every turn (36 zero inputs). Expected: 0 paid, $0.
 
 ## Design evidence
 
-- [Class diagram](diagrams/stage1-class-diagram.md)
-- [Sequence diagram](diagrams/stage1-sequence-diagram.md)
+- [Stage 1 PDF report](output/pdf/Restaurant_Rush_Stage1_Report.pdf) - customer-3 scenario justification is on page 7.
+
+- [PlantUML diagram index and all SVG exports](diagrams/README.md)
+- [Proposed Stage 1-3 class diagrams](diagrams/classes/README.md)
+- [Implemented Stage 1 sequence diagrams](diagrams/sequence/README.md)
 - [Chapter 9 explanation and reconstruction exercises](docs/chapter9-rebuild-guide.md)
 
-These are Stage 1 diagrams, not the required final Stage 3 submission diagrams. No stage tags or commits are created automatically by this rewrite; preserve reviewed, runnable milestones in your group's repository.
+The class diagrams describe the proposed Stage 1-3 design; the sequence diagrams describe the implemented Stage 1. Final submission diagrams must match the eventual Stage 3 code. No stage tags or commits are created automatically by this rewrite; preserve reviewed, runnable milestones in your group's repository.
