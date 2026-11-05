@@ -15,13 +15,33 @@ A Java command-line restaurant game for the SC2002 group assignment. The current
 
 The diagrams and earlier report describe designs or previous implementations; they may not match the current skeleton. Update them as the game is implemented.
 
-## Compile the skeleton
+## Implementation checklist
 
-From the repository root with a JDK installed:
+Checked items have their current Stage 1 code or declarations in place; they have not necessarily been tested as part of a playable game. Unchecked items still need implementation or integration.
 
-```sh
-mkdir -p out
-javac -d out $(find src/main/java -name '*.java')
-```
+### Stage 1 — Basic operation
 
-Compiling does not make the game playable. Implement and verify Stage 1 first, then add Stage 2 and Stage 3 behavior. Each stage must be a separately runnable Git commit with its required tag; the current skeleton is not a completed Stage 1.
+- [x] `MenuItem` and `MenuItemInterface` (the required menu still needs to be set up)
+- [x] `Order` (the chef/controller must enforce the per-turn preparation limit)
+- [x] `Customer` (abstract base; integration with table and order flow remains to be verified)
+- [ ] `RegularCustomer`
+- [ ] `Table` and `TableInterface` integration
+- [ ] `Staff`, `Waiter`, `Chef`, `Cashier` and their interfaces
+- [ ] `RestaurantGame` and `RestaurantGameInterface` integration
+- [ ] `CustomerView` and `TableView`
+- [x] `WaiterTask` and `TurnPhase` enums
+- [ ] `RestaurantRush` command-line interface
+- [ ] Complete playable game, including reproducible victory and defeat runs
+
+### Stage 2 — Customer behaviour
+
+- [ ] `VIPCustomer`
+- [ ] `CriticCustomer`
+- [ ] Integrate customer selection, VIP pricing and documented Critic behaviour
+
+### Stage 3 — New role and menu policy
+
+- [ ] Host role
+- [ ] `ComboMeal`
+- [ ] Happy Hour pricing and satisfaction behaviour
+- [ ] Integrate and verify Stage 3 features
