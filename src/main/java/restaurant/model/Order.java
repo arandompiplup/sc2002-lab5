@@ -3,23 +3,66 @@ package restaurant.model;
 public final class Order {
 
     public enum Status { PREPARING, READY, SERVED, PAID, CANCELLED }
-    private MenuItemInterface item;
-    private int billCents;
+    private final MenuItemInterface item;
+    private final int billCents;
     private int unitsPrepared = 0;
     private int readyTurn = -1;
     private Status status = Status.PREPARING;
 
-    public Order(MenuItemInterface item) { throw new UnsupportedOperationException("Not implemented"); }
+    public Order(MenuItemInterface item) {
+        this.item = item;
+        this.billCents = item.getPriceCents();
+    }
 
-    public void prepareOneUnit(int turn) { throw new UnsupportedOperationException("Not implemented"); }
+    public MenuItemInterface getItem() {
+        return item;
+    }
 
-    public boolean canBeServed(int turn) { throw new UnsupportedOperationException("Not implemented"); }
+    public int getUnitsPrepared() {
+        return unitsPrepared;
+    }
 
-    public void serve(int turn) { throw new UnsupportedOperationException("Not implemented"); }
+    public Status getStatus() {
+        return status;
+    }
 
-    public void markPaid() { throw new UnsupportedOperationException("Not implemented"); }
+    public int getBillCents() {
+        return billCents;
+    }
+    
+    public boolean canBeServed(int turn) {
+        return status == Status.READY && readyTurn < turn;
+    }
 
-    public void cancel() { throw new UnsupportedOperationException("Not implemented"); }
+    public void prepareOneUnit(int turn) {
+        if (status != Status.PREPARING)
+            throw new IllegalStateException("Order cannot be prepared now.");
 
-    public int billCents() { throw new UnsupportedOperationException("Not implemented"); }
+        unitsPrepared++;
+        if (unitsPrepared >= item.getPreparationUnits()) {
+            status = Status.READY;
+            readyTurn = turn;
+        }
+    }
+    
+    public void serve(int turn) {
+        if (status != Status.READY || readyTurn >= turn)
+            throw new IllegalStateException("Order cannot be served now.");
+
+        status = Status.SERVED;
+    }
+
+    public void markPaid() {
+        if (status != Status.SERVED)
+            throw new IllegalStateException("Order cannot be marked paid now.");
+
+        status = Status.PAID;
+    }
+
+    public void cancel() {
+        if (status != Status.PREPARING && status != Status.READY)
+            throw new IllegalStateException("Order cannot be cancelled now.");
+
+        status = Status.CANCELLED;
+    }
 }

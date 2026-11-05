@@ -103,7 +103,7 @@ public abstract class Customer {
         table = null;
         state = State.PAID;
 
-        return order.billCents();
+        return order.getBillCents();
     }
 
     public void waitAtTurnEnd() {
