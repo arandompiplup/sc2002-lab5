@@ -9,9 +9,9 @@ public final class Order {
     private int readyTurn = -1;
     private Status status = Status.PREPARING;
 
-    public Order(MenuItemInterface item) {
+    public Order(MenuItemInterface item, int billCents) {
         this.item = item;
-        this.billCents = item.getPriceCents();
+        this.billCents = billCents;
     }
 
     public MenuItemInterface getItem() {

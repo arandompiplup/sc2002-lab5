@@ -24,9 +24,9 @@ Checked items have their current Stage 1 code or declarations in place; they hav
 - [x] `MenuItem` and `MenuItemInterface` (the required menu still needs to be set up)
 - [x] `Order` (the chef/controller must enforce the per-turn preparation limit)
 - [x] `Customer` (abstract base; integration with table and order flow remains to be verified)
-- [ ] `RegularCustomer`
+- [x] `RegularCustomer`
 - [ ] `Table` and `TableInterface` integration
-- [ ] `Staff`, `Waiter`, `Chef`, `Cashier` and their interfaces
+- [x] `Staff`, `Waiter`, `Chef`, `Cashier` integration
 - [ ] `RestaurantGame` and `RestaurantGameInterface` integration
 - [ ] `CustomerView` and `TableView`
 - [x] `WaiterTask` and `TurnPhase` enums

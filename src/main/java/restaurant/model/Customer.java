@@ -1,4 +1,5 @@
 package restaurant.model;
+import java.util.List;
 
 public abstract class Customer {
     public enum State { WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT }
@@ -36,6 +37,9 @@ public abstract class Customer {
     }
 
     public int getReadyToPayTurn() {
+        if (readyToPayTurn == -1) {
+            throw new IllegalStateException("Customer is not ready to pay yet.");
+        }
         return readyToPayTurn;
     }
 
@@ -69,11 +73,18 @@ public abstract class Customer {
         state = State.SEATED;
     }
 
-    public void placeOrder() {
-        if (!canOrder())
+    public void placeOrder(MenuItemInterface item, int billCents) {
+        if (!canOrder()) {
             throw new IllegalStateException("Customer cannot order now.");
+        }
+        if (item == null) {
+            throw new IllegalArgumentException("Menu item cannot be null.");
+        }
+        if (billCents < 0) {
+            throw new IllegalArgumentException("Bill cannot be negative.");
+        }
 
-        order = new Order(chooseMenuItem());
+        order = new Order(item, billCents);
     }
 
     public void receiveFood(int turn) {
@@ -124,5 +135,5 @@ public abstract class Customer {
 
     protected abstract int satisfactionLoss();
 
-    protected abstract MenuItemInterface chooseMenuItem();
+    protected abstract MenuItemInterface chooseMenuItem(List<MenuItemInterface> menu);
 }

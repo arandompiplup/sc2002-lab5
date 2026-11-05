@@ -3,11 +3,25 @@ package restaurant.model;
 public abstract class Staff {
     private boolean available;
 
-    public final void beginTurn() { throw new UnsupportedOperationException("Not implemented"); }
+    protected Staff() {
+        this.available = true;
+    }
 
-    public final boolean isAvailable() { throw new UnsupportedOperationException("Not implemented"); }
+    public final void beginTurn() {
+        available = true;
+    }
 
-    protected final void requireAvailable() { throw new UnsupportedOperationException("Not implemented"); }
+    public final boolean isAvailable() {
+        return available;
+    }
 
-    protected final void markSuccessfulTask() { throw new UnsupportedOperationException("Not implemented"); }
+    protected final void requireAvailable() {
+        if (!available) {
+            throw new IllegalStateException("Staff member already acted this turn.");
+        }
+    }
+
+    protected final void recordSuccessfulTask() {
+        available = false;
+    }
 }
