@@ -1,6 +1,6 @@
 package restaurant;
 
-public final class Customer {
+public final class Customer implements CustomerInterface {
     public enum State { WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT }
 
     private final int id;

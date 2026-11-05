@@ -1,6 +1,6 @@
 package restaurant;
 
-public final class Chef {
+public final class Chef implements ChefInterface {
     private boolean used;
     public void beginTurn() { used = false; }
     public boolean available() { return !used; }

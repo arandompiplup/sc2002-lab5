@@ -3,7 +3,7 @@ package restaurant;
 import java.util.*;
 
 /** Stage 1 game rules and state. The console class only gathers choices and renders this state. */
-public final class RestaurantGame {
+public final class RestaurantGame implements RestaurantGameInterface {
     public static final int MAX_TURNS = 18;
     private final List<Table> tables = List.of(new Table(1), new Table(2));
     private final List<Customer> customers = new ArrayList<>();

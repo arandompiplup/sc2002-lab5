@@ -1,6 +1,6 @@
 package restaurant;
 
-public final class Order {
+public final class Order implements OrderInterface {
     public enum Status { PREPARING, READY, SERVED, PAID, CANCELLED }
 
     private final MenuItem item;

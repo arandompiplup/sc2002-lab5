@@ -1,6 +1,6 @@
 package restaurant;
 
-public final class Table {
+public final class Table implements TableInterface {
     private final int number;
     private Customer occupant;
     public Table(int number) { this.number = number; }

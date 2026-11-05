@@ -1,6 +1,6 @@
 package restaurant;
 
-public final class Waiter {
+public final class Waiter implements WaiterInterface {
     private boolean used;
     public void beginTurn() { used = false; }
     public boolean available() { return !used; }
