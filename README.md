@@ -1,25 +1,27 @@
 # Restaurant Rush
 
-A Java command-line restaurant management game for the SC2002 group assignment. The current implementation is Stage 1, rewritten as a commented learning example using basic OO and Chapter 9 design principles.
+A Java command-line restaurant game for the SC2002 group assignment. The current source is a **skeleton**, not a playable game: most methods still throw `UnsupportedOperationException`.
 
-Start with:
+## Project layout
 
-- [Stage 1 PDF report](output/pdf/Restaurant_Rush_Stage1_Report.pdf) - design discussion, verified evidence, UML and customer-3 justification.
-- [Stage 1 build/run instructions, rules and reproducible runs](stage_1.md)
-- [Chapter 9 design explanations and step-by-step rebuild exercises](docs/chapter9-rebuild-guide.md)
-- [Proposed Stage 1-3 class diagrams](diagrams/classes/README.md)
-- [Implemented Stage 1 sequence diagrams](diagrams/sequence/README.md)
-- [Original assignment brief](SC2002_Restaurant_Rush_Group_Assignment.docx)
-- [AI workflow requirements](workflow.md)
+- `src/main/java/restaurant/RestaurantRush.java` — console entry point and interface.
+- `src/main/java/restaurant/game/` — game controller, display views, and turn/action enums.
+- `src/main/java/restaurant/model/` — customers, staff, orders, tables, and menu items.
+- `tests/` — existing test scripts and any Java tests; these need to be reconciled with the skeleton as functionality is rebuilt.
+- `diagrams/classes/` — proposed class diagrams for Stages 1–3.
+- `diagrams/sequence/` — sequence diagrams.
+- `docs/` — design notes and previous report material.
+- `lab5_doc.md` and `SC2002_Restaurant_Rush_Group_Assignment.docx` — assignment brief.
 
-The code uses private state, guarded domain operations, customer/staff inheritance, composition, immutable display snapshots and two purposeful interfaces. Comments explain the decisions and their limits rather than claiming that every class must use every SOLID principle.
+The diagrams and earlier report describe designs or previous implementations; they may not match the current skeleton. Update them as the game is implemented.
 
-Java 17+ and Python 3 are sufficient to run all verification:
+## Compile the skeleton
+
+From the repository root with a JDK installed:
 
 ```sh
-python3 tests/stage1_smoke.py
+mkdir -p out
+javac -d out $(find src/main/java -name '*.java')
 ```
 
-The diagrams now use PlantUML, with SVG exports and editable `.puml` sources. Start at the [diagram index](diagrams/README.md) for the proposed three-stage classes and implemented Stage 1 service scenario. The index maps the notation to Chapters 6-9 and explains local regeneration.
-
-Stage 2 (VIP and Critic) and Stage 3 (Host, ComboMeal, Happy Hour) are not implemented. The Stage 1 report is included above; commits, Git tags and a video are not created by generating it. The final assignment requires those stage milestones and submission evidence; see the original brief. Understand and adapt the learning implementation, and record GAI assistance using the required course declarations.
+Compiling does not make the game playable. Implement and verify Stage 1 first, then add Stage 2 and Stage 3 behavior. Each stage must be a separately runnable Git commit with its required tag; the current skeleton is not a completed Stage 1.

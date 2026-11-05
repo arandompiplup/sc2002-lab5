@@ -1,16 +1,9 @@
 package restaurant.model;
 
-/** Stage 1's only customer type. No VIP or Critic behaviour is included. */
 public final class RegularCustomer extends Customer {
     public RegularCustomer(int id) { super(id); }
 
-    @Override
-    protected int satisfactionLoss() { return 8; }
+    protected int satisfactionLoss() { throw new UnsupportedOperationException("Not implemented"); }
 
-    @Override
-    protected MenuItemInterface chooseMenuItem() {
-        // Deterministic and reproducible: Salad, Burger, Pasta, then repeat.
-        MenuItem[] menu = MenuItem.values();
-        return menu[(id() - 1) % menu.length];
-    }
+    protected MenuItemInterface chooseMenuItem() { throw new UnsupportedOperationException("Not implemented"); }
 }
