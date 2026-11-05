@@ -1,7 +1,6 @@
 package restaurant.model;
 
 public abstract class Customer {
-
     public enum State { WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT }
     private final int id;
     private int satisfaction = 100;

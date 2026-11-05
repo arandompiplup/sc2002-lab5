@@ -1,14 +1,28 @@
 package restaurant.model;
 
-public enum MenuItem implements MenuItemInterface {
-    SALAD, BURGER, PASTA;
-    private String displayName;
-    private int priceCents;
-    private int preparationUnits;
+public class MenuItem implements MenuItemInterface {
+    private final String displayName;
+    private final int priceCents;
+    private final int preparationUnits;
 
-    public String displayName() { throw new UnsupportedOperationException("Not implemented"); }
+    public MenuItem(String displayName, int priceCents, int preparationUnits) {
+        this.displayName = displayName;
+        this.priceCents = priceCents;
+        this.preparationUnits = preparationUnits;
+    }
 
-    public int priceCents() { throw new UnsupportedOperationException("Not implemented"); }
+    @Override
+    public String getDisplayName() {
+        return displayName;
+    }
 
-    public int preparationUnits() { throw new UnsupportedOperationException("Not implemented"); }
+    @Override
+    public int getPriceCents() {
+        return priceCents;
+    }
+
+    @Override
+    public int getPreparationUnits() {
+        return preparationUnits;
+    }
 }
