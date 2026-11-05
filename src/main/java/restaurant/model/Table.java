@@ -6,7 +6,11 @@ public final class Table {
 
     public Table(int number) { throw new UnsupportedOperationException("Not implemented"); }
 
-    public boolean isFree() { this.occupant == null ? false : true; }
+    public int getNumber() { return this.number; }
+
+    public Customer getOccupant() { return this.occupant; }
+
+    public boolean isFree() { this.occupant == null; }
 
     public void seat(Customer customer) { this.occupant = customer; }
 

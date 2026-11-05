@@ -28,7 +28,7 @@ Checked items have their current Stage 1 code or declarations in place; they hav
 - [x] `Table` and `TableInterface` integration
 - [x] `Staff`, `Waiter`, `Chef`, `Cashier` integration
 - [ ] `RestaurantGame` and `RestaurantGameInterface` integration
-- [ ] `CustomerView` and `TableView`
+- [x] `CustomerView` and `TableView`
 - [x] `WaiterTask` and `TurnPhase` enums
 - [ ] `RestaurantRush` command-line interface
 - [ ] Complete playable game, including reproducible victory and defeat runs
