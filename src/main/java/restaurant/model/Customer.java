@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 public final class Customer implements CustomerInterface {
     public enum State { WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT }
@@ -33,10 +33,10 @@ public final class Customer implements CustomerInterface {
         return MenuItem.values()[(id - 1) % MenuItem.values().length];
     }
     void serve(int turn) { order.serve(); servedTurn = turn; state = State.EATING; }
-    void finishEating(int turn) { state = State.READY_TO_PAY; readyToPayTurn = turn; }
-    void pay() { order.markPaid(); state = State.PAID; satisfactionAtPayment = satisfaction; table.release(this); table = null; }
-    void loseSatisfaction() { satisfaction = Math.max(0, satisfaction - 8); }
-    void leave() {
+    public void finishEating(int turn) { state = State.READY_TO_PAY; readyToPayTurn = turn; }
+    public void pay() { order.markPaid(); state = State.PAID; satisfactionAtPayment = satisfaction; table.release(this); table = null; }
+    public void loseSatisfaction() { satisfaction = Math.max(0, satisfaction - 8); }
+    public void leave() {
         if (order != null) order.cancel();
         state = State.LEFT;
         if (table != null) { table.release(this); table = null; }

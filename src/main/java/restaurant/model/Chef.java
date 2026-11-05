@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 public final class Chef implements ChefInterface {
     private boolean used;

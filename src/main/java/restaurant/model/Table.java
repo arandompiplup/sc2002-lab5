@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 public final class Table implements TableInterface {
     private final int number;

@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def run_game(classes, choices, expected):
     result = subprocess.run(
-        ["java", "-cp", classes, "restaurant.RestaurantRush"],
+        ["java", "-cp", classes, "restaurant.game.RestaurantRush"],
         input="\n".join(map(str, choices)) + "\n",
         capture_output=True,
         text=True,
@@ -26,7 +26,7 @@ def main():
     with tempfile.TemporaryDirectory(prefix="restaurant-stage1-") as classes:
         subprocess.run(
             ["javac", "-Xlint:all", "-d", classes,
-             *map(str, sorted((ROOT / "src/main/java/restaurant").glob("*.java")))],
+             *map(str, sorted((ROOT / "src/main/java/restaurant").rglob("*.java")))],
             check=True,
         )
         waiter = {

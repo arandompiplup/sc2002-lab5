@@ -7,8 +7,8 @@ Stage 1 is the basic-operation version of the game: regular customers, three men
 Requires Java 17 or newer. From the repository root:
 
 ```powershell
-javac -d out src/main/java/restaurant/*.java
-java -cp out restaurant.RestaurantRush
+javac -d out src/main/java/restaurant/model/*.java src/main/java/restaurant/game/*.java
+java -cp out restaurant.game.RestaurantRush
 ```
 
 The game uses no network access or external dependencies.

@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 public final class Order implements OrderInterface {
     public enum Status { PREPARING, READY, SERVED, PAID, CANCELLED }

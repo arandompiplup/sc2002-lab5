@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 public interface TableInterface {
     int number();

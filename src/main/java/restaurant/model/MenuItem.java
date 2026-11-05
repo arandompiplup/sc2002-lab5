@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 /** The three fixed Stage 1 dishes. Prices are stored in cents. */
 public enum MenuItem implements MenuItemInterface {

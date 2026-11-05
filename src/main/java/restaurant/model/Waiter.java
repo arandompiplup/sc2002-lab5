@@ -1,4 +1,4 @@
-package restaurant;
+package restaurant.model;
 
 public final class Waiter implements WaiterInterface {
     private boolean used;

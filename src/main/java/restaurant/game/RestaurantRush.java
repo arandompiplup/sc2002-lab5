@@ -1,4 +1,6 @@
-package restaurant;
+package restaurant.game;
+
+import restaurant.model.*;
 
 import java.util.*;
 
