@@ -25,7 +25,7 @@ Checked items have their current Stage 1 code or declarations in place; they hav
 - [x] `Order` (the chef/controller must enforce the per-turn preparation limit)
 - [x] `Customer` (abstract base; integration with table and order flow remains to be verified)
 - [x] `RegularCustomer`
-- [ ] `Table` and `TableInterface` integration
+- [x] `Table` and `TableInterface` integration
 - [x] `Staff`, `Waiter`, `Chef`, `Cashier` integration
 - [ ] `RestaurantGame` and `RestaurantGameInterface` integration
 - [ ] `CustomerView` and `TableView`
