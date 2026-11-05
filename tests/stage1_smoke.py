@@ -26,9 +26,11 @@ def main():
     with tempfile.TemporaryDirectory(prefix="restaurant-stage1-") as classes:
         subprocess.run(
             ["javac", "-Xlint:all", "-d", classes,
-             *map(str, sorted((ROOT / "src/main/java/restaurant").glob("*.java")))],
+             *map(str, sorted((ROOT / "src/main/java/restaurant").rglob("*.java"))),
+             *map(str, sorted((ROOT / "tests/java").rglob("*.java")))],
             check=True,
         )
+        subprocess.run(["java", "-cp", classes, "restaurant.tests.Stage1ContractTest"], check=True)
         waiter = {
             1: [1, 1, 1], 2: [2, 1], 3: [3, 1], 4: [1, 1, 2],
             5: [2, 2], 6: [3, 2], 7: [1, 1, 1], 8: [2, 3],

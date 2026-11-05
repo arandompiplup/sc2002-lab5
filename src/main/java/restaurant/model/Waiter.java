@@ -1,11 +1,23 @@
-package restaurant;
+package restaurant.model;
 
-public final class Waiter implements WaiterInterface {
-    private boolean used;
-    public void beginTurn() { used = false; }
-    public boolean available() { return !used; }
-    private void use() { if (used) throw new IllegalStateException("Waiter already acted this turn."); used = true; }
-    public void seat(Customer customer, Table table) { use(); table.seat(customer); }
-    public void takeOrder(Customer customer) { use(); customer.placeOrder(); }
-    public void serve(Customer customer, int turn) { use(); customer.serve(turn); }
+/** SRP: performs waiter tasks; Customer/Table/Order enforce their own state rules. */
+public final class Waiter extends Staff {
+    public void seat(Customer customer, Table table) {
+        requireAvailable();
+        table.seat(customer);
+        // Only successful actions consume the task. Exceptions keep it available.
+        recordSuccessfulTask();
+    }
+
+    public void takeOrder(Customer customer) {
+        requireAvailable();
+        customer.placeOrder();
+        recordSuccessfulTask();
+    }
+
+    public void serve(Customer customer, int turn) {
+        requireAvailable();
+        customer.receiveFood(turn);
+        recordSuccessfulTask();
+    }
 }

@@ -68,7 +68,7 @@ Every turn must execute these 6 steps sequentially:
 * **Stage 3 (`stage-3` tag):**
 * **Host:** Seats at most one queued customer per turn independently of the Waiter.
 * **ComboMeal:** Combines two menu items (prep units = sum, price = 90% of combined price rounded to nearest cent).
-* **Happy Hour:** Switchable by manager once per game, lasts for the current turn and the next. Applies 20% off active orders, recovers 15 satisfaction for waiting/seated customers at turn start. VIP discount applies first, then Happy Hour.
+* **Happy Hour:** Switchable by manager once per game, lasts for the current turn and the next. Applies 20% off orders taken while active; the price is locked when the order is taken and existing orders do not change. Recovers 15 satisfaction for waiting/seated customers at turn start (maximum 100). VIP discount applies first, then Happy Hour.
 
 
 

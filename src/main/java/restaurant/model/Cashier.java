@@ -1,12 +1,23 @@
-package restaurant;
+package restaurant.model;
 
 import java.util.List;
 
-public final class Cashier implements CashierInterface {
-    public Customer collectOldest(List<Customer> customers, int turn) {
-        return customers.stream()
-                .filter(c -> c.state() == Customer.State.READY_TO_PAY && c.readyToPayTurn() < turn)
-                .min(java.util.Comparator.comparingInt(Customer::id))
-                .orElse(null);
+/** SRP: selects and collects one eligible payment; the game owns total revenue. */
+public final class Cashier extends Staff {
+    public int collectPayment(List<Customer> customers, int turn) {
+        requireAvailable();
+        Customer oldest = null;
+        for (Customer customer : customers) {
+            if (!customer.canPay(turn)) continue;
+            // "Oldest first" means longest READY_TO_PAY wait; arrival ID breaks ties.
+            if (oldest == null || customer.readyToPayTurn() < oldest.readyToPayTurn()
+                    || (customer.readyToPayTurn() == oldest.readyToPayTurn() && customer.id() < oldest.id())) {
+                oldest = customer;
+            }
+        }
+        if (oldest == null) return 0;
+        int payment = oldest.pay(turn);
+        recordSuccessfulTask();
+        return payment;
     }
 }

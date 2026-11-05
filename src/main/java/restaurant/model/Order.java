@@ -1,31 +1,58 @@
-package restaurant;
+package restaurant.model;
 
-public final class Order implements OrderInterface {
+import java.util.Objects;
+
+/** Entity: preparation and payment status belong here, not in the CLI. */
+public final class Order {
     public enum Status { PREPARING, READY, SERVED, PAID, CANCELLED }
 
-    private final MenuItem item;
+    // DIP/OCP: preparation needs an item's contract, not a particular enum value.
+    private final MenuItemInterface item;
+    private final int billCents;
     private int unitsPrepared;
+    private int readyTurn = -1;
     private Status status = Status.PREPARING;
 
-    public Order(MenuItem item) { this.item = item; }
-    public MenuItem item() { return item; }
+    public Order(MenuItemInterface item) {
+        this.item = Objects.requireNonNull(item, "Menu item is required.");
+        if (item.priceCents() <= 0 || item.preparationUnits() <= 0)
+            throw new IllegalArgumentException("Price and preparation units must be positive.");
+        billCents = item.priceCents();
+    }
+
+    public MenuItemInterface item() { return item; }
     public int unitsPrepared() { return unitsPrepared; }
     public Status status() { return status; }
-    public int billCents() { return item.priceCents(); }
+    public int billCents() { return billCents; }
+    public boolean canBeServed(int turn) { return status == Status.READY && readyTurn < turn; }
 
-    public void prepareOneUnit() {
-        if (status != Status.PREPARING) throw new IllegalStateException("Order is not being prepared.");
-        if (++unitsPrepared == item.preparationUnits()) status = Status.READY;
+    public void prepareOneUnit(int turn) {
+        if (turn < 1) throw new IllegalArgumentException("Turn must be positive.");
+        requireStatus(Status.PREPARING, "Order is not being prepared.");
+        unitsPrepared++;
+        if (unitsPrepared == item.preparationUnits()) {
+            status = Status.READY;
+            readyTurn = turn;
+        }
     }
-    public void serve() {
-        if (status != Status.READY) throw new IllegalStateException("Order is not ready.");
+
+    public void serve(int turn) {
+        if (!canBeServed(turn)) throw new IllegalStateException("Order is not ready from an earlier turn.");
         status = Status.SERVED;
     }
+
     public void markPaid() {
-        if (status != Status.SERVED) throw new IllegalStateException("Order has not been served.");
+        requireStatus(Status.SERVED, "Order has not been served.");
         status = Status.PAID;
     }
+
     public void cancel() {
-        if (status == Status.PREPARING || status == Status.READY) status = Status.CANCELLED;
+        if (status != Status.PREPARING && status != Status.READY)
+            throw new IllegalStateException("Only unfinished orders can be cancelled.");
+        status = Status.CANCELLED;
+    }
+
+    private void requireStatus(Status expected, String message) {
+        if (status != expected) throw new IllegalStateException(message);
     }
 }

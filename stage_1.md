@@ -1,48 +1,70 @@
 # Restaurant Rush - Stage 1
 
-Stage 1 is the basic-operation version of the game: regular customers, three menu items, two tables, and a Waiter, Chef, and Cashier. This guide documents the current implementation and how to run it independently.
+This version implements only the required regular-customer game. Read [the Chapter 9 rebuild guide](docs/chapter9-rebuild-guide.md) alongside the source: it explains the responsibilities, contracts, trade-offs and order in which to recreate the program.
 
-## Run
+## Build and run
 
-Requires Java 17 or newer. From the repository root:
+Java 17 or newer; no libraries, build system or network access required. From the repository root:
 
-```powershell
-javac -d out src/main/java/restaurant/*.java
+```sh
+javac -Xlint:all -d out src/main/java/restaurant/*.java src/main/java/restaurant/game/*.java src/main/java/restaurant/model/*.java
 java -cp out restaurant.RestaurantRush
 ```
 
-The game uses no network access or external dependencies.
-
-Run the CLI regression checks with Java 17+ and Python 3:
+Run all domain/controller contracts and CLI regression scenarios with Python 3 and Java 17+:
 
 ```sh
 python3 tests/stage1_smoke.py
 ```
 
-## Stage 1 rules implemented
+The test runner compiles into a temporary directory, so it never depends on existing `out/` classes.
 
-- The game runs all 18 turns. Arrivals occur at the start of turns 1, 4, 7, 10, 13, and 16.
-- There are two tables, one Waiter task per turn, one Chef preparation unit per turn, and one automatic Cashier payment per turn.
-- Menu: Salad ($9.00, 1 preparation unit), Burger ($15.00, 1 unit), and Pasta ($18.00, 2 units). Money is stored as integer cents.
-- Customers deterministically choose their dish when the manager takes their order: customer IDs cycle Salad, Burger, Pasta. The choice is made inside `Customer`, not by the CLI. The manager chooses which customer to seat, order for, serve, and prepare.
-- Invalid actions explain the issue and allow another choice without consuming the staff task. Tasks with no eligible customers return to the task menu; enter 0 at a customer-ID prompt to return to that menu.
-- The Waiter acts before the Chef. The Chef can work on an order taken this turn, but an order that becomes READY cannot be served until a later turn.
-- Customers eat for one full turn after service, become READY_TO_PAY, and can pay on the following turn. The table is freed on payment.
-- Waiting and seated customers lose 8 satisfaction at turn end. At zero they leave without paying; unfinished orders are cancelled.
-- Victory requires at least 4 paid customers, $45.00 revenue, and an average paid-customer satisfaction of at least 60. Otherwise, the result is Defeat.
+## Required behaviour
 
-## Reproducible Stage 1 run notes
+- All 18 turns run. Arrivals occur at the start of turns 1, 4, 7, 10, 13 and 16.
+- Two tables; one Waiter task, one Chef preparation unit and one automatic Cashier payment per turn.
+- Salad: 900 cents / 1 unit; Burger: 1500 cents / 1 unit; Pasta: 1800 cents / 2 units. Displays use two decimal places.
+- Customer IDs choose Salad, Burger, Pasta cyclically. Customers choose when ordering; the manager never chooses food.
+- The controller enforces Waiter before Chef, including when called without the CLI. A dish completed this turn cannot be served this turn.
+- Serving on turn T leads to READY_TO_PAY at the end of T+1 and payment at T+2 at the earliest. Tables remain occupied until payment or departure.
+- Cashier priority is the earliest READY_TO_PAY turn, breaking ties by arrival/customer ID. This documents our interpretation of "oldest first".
+- Waiting/seated customers lose 8 satisfaction per turn, clamped at zero. At zero they leave, cancel unfinished orders and release tables. Eating and ready-to-pay customers lose nothing.
+- Invalid actions explain the issue and permit a retry without consuming a task. Entering 0 at a selector returns to its task menu. EOF stops with an incomplete-game message, without announcing a final result.
+- Revenue includes only collected payments. Average satisfaction uses values recorded at payment; no payments displays N/A.
+- After turn 18, Victory requires at least 4 paid customers, 4500 cents revenue and average paid satisfaction at least 60. No earlier victory check ends the game.
+- Every turn-end display includes served count, departures, revenue, average and turns used.
 
-Dish choices are deterministic by customer ID: #1 Salad, #2 Burger, #3 Pasta, then repeat.
+## Reproducible victory
 
-- **Victory:** Waiter task by turn: 1 seat #1; 2 order #1; 3 serve #1; 4 seat #2; 5 order #2; 6 serve #2; 7 seat #3; 8 order #3; 9 wait; 10 serve #3; 11 seat #4; 12 order #4; 13 serve #4. Use the Chef on turns 2 (#1), 5 (#2), 8 and 9 (#3), and 12 (#4); wait on other turns. Let the Cashier act automatically. Customers #1-#4 pay by turn 15 for $51.00 total, with average satisfaction 80.
-- **Defeat:** choose Wait for both staff on every turn. No customer pays, so the final result is Defeat.
+Queue position and customer ID are different prompts. The seat entries below identify the customer; choose that customer's current queue position.
 
-These are input plans for capturing test notes or a demonstration. The game always processes all 18 turns.
+| Turn | Waiter | Chef |
+| --- | --- | --- |
+| 1 | Seat #1 at table 1 | Wait |
+| 2 | Order #1 | Prepare #1 |
+| 3 | Serve #1 | Wait |
+| 4 | Seat #2 at table 2 | Wait |
+| 5 | Order #2 | Prepare #2 |
+| 6 | Serve #2 | Wait |
+| 7 | Seat #3 at table 1 | Wait |
+| 8 | Order #3 | Prepare #3 |
+| 9 | Wait | Prepare #3 |
+| 10 | Serve #3 | Wait |
+| 11 | Seat #4 at table 2 | Wait |
+| 12 | Order #4 | Prepare #4 |
+| 13 | Serve #4 | Wait |
+| 14-18 | Wait | Wait |
 
-## Stage 1 diagrams
+Expected: 4 paid customers, $51.00 revenue, average satisfaction 80.0, Victory after turn 18.
+
+## Reproducible defeat
+
+Choose Wait for both staff on every turn (36 zero inputs). Expected: 0 paid, $0.00, N/A satisfaction, 2 unhappy departures and Defeat after turn 18.
+
+## Design evidence
 
 - [Class diagram](diagrams/stage1-class-diagram.md)
 - [Sequence diagram](diagrams/stage1-sequence-diagram.md)
+- [Chapter 9 explanation and reconstruction exercises](docs/chapter9-rebuild-guide.md)
 
-See the repository [README](README.md) for Mermaid preview instructions and general project information.
+These are Stage 1 diagrams, not the required final Stage 3 submission diagrams. No stage tags or commits are created automatically by this rewrite; preserve reviewed, runnable milestones in your group's repository.
