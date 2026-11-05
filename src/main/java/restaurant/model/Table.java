@@ -10,7 +10,7 @@ public final class Table {
 
     public Customer getOccupant() { return this.occupant; }
 
-    public boolean isFree() { this.occupant == null; }
+    public boolean isFree() { return this.occupant == null; }
 
     public void seat(Customer customer) { this.occupant = customer; }
 

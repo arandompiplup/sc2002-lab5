@@ -133,6 +133,23 @@ public abstract class Customer {
         state = State.LEFT;
     }
 
+    public final MenuItemInterface selectItem(List<MenuItemInterface> menu) {
+        if (!canOrder()) {
+            throw new IllegalStateException("Customer cannot order now.");
+        }
+        if (menu == null || menu.isEmpty()) {
+            throw new IllegalArgumentException("Menu cannot be empty.");
+        }
+        return chooseMenuItem(menu);
+    }
+
+    public int billAfterDiscount(int baseCents) {
+        if (baseCents < 0) {
+            throw new IllegalArgumentException("Bill cannot be negative.");
+        }
+        return baseCents;
+    }
+
     protected abstract int satisfactionLoss();
 
     protected abstract MenuItemInterface chooseMenuItem(List<MenuItemInterface> menu);
