@@ -1,0 +1,264 @@
+@startuml newstage1
+!$STAGE = 1
+title Restaurant Rush - implemented Stage 1\nUML class diagram
+!include ../shared/style.puml
+
+' Class-diagram layout conventions used by class-model.puml.
+!pragma layout smetana
+hide circle
+hide empty members
+skinparam defaultFontSize 13
+skinparam nodesep 38
+skinparam ranksep 52
+skinparam classBackgroundColor<<new>> #EAF4EE
+skinparam classBackgroundColor<<changed>> #FFF6DE
+skinparam classBorderColor<<new>> #527760
+skinparam classBorderColor<<changed>> #A58744
+
+class RestaurantRush <<boundary>> {
+  - game : RestaurantGameInterface
+  - input : Scanner
+  - output : PrintStream
+  + RestaurantRush(in game : RestaurantGameInterface, in input : Scanner, in output : PrintStream)
+  + main(in args : String[]) : void
+  + play() : void
+}
+
+interface RestaurantGameInterface <<interface>> {
+  + startTurn() : void
+  + seat(in customerId : int, in tableNumber : int) : void
+  + order(in customerId : int) : void
+  + serve(in customerId : int) : void
+  + prepare(in customerId : int) : void
+  + waitWaiter() : void
+  + waitChef() : void
+  + finishTurn() : void
+  + eligibleFor(in task : WaiterTask) : List<CustomerView>
+  + eligibleForPreparation() : List<CustomerView>
+  + customers() : List<CustomerView>
+  + waiting() : List<CustomerView>
+  + tables() : List<TableView>
+  + turn() : int
+  + phase() : TurnPhase
+  + revenueCents() : int
+  + servedCount() : int
+  + departures() : int
+  + paidCount() : int
+  + averagePaidSatisfaction() : double
+  + victory() : boolean
+}
+
+class RestaurantGame <<control>> {
+  {static} + MAX_TURNS : int = 18
+  - turn : int
+  - phase : TurnPhase
+  - revenueCents : int
+  - servedCount : int
+  - departures : int
+  + startTurn() : void
+  + seat(in customerId : int, in tableNumber : int) : void
+  + order(in customerId : int) : void
+  + serve(in customerId : int) : void
+  + prepare(in customerId : int) : void
+  + waitWaiter() : void
+  + waitChef() : void
+  + finishTurn() : void
+  + eligibleFor(in task : WaiterTask) : List<CustomerView>
+  + eligibleForPreparation() : List<CustomerView>
+  + customers() : List<CustomerView>
+  + waiting() : List<CustomerView>
+  + tables() : List<TableView>
+  + turn() : int
+  + phase() : TurnPhase
+  + revenueCents() : int
+  + servedCount() : int
+  + departures() : int
+  + paidCount() : int
+  + averagePaidSatisfaction() : double
+  + victory() : boolean
+  - calculateBill(in customer : Customer, in item : MenuItemInterface) : int
+}
+
+class Staff as "Staff\n{abstract}" {
+  - available : boolean
+  + beginTurn() : void
+  + isAvailable() : boolean
+  # requireAvailable() : void
+  # recordSuccessfulTask() : void
+}
+
+class Waiter {
+  + seat(in customer : Customer, in table : Table) : void
+  + takeOrder(in customer : Customer, in item : MenuItemInterface, in billCents : int) : void
+  + serve(in customer : Customer, in turn : int) : void
+}
+
+class Chef {
+  + prepare(in customer : Customer, in turn : int) : void
+}
+
+class Cashier {
+  + collectPayment(in customers : List<Customer>, in turn : int) : int
+}
+
+class Customer as "Customer\n{abstract}" <<entity>> {
+  - id : int
+  - satisfaction : int = 100
+  - state : Customer.State = WAITING
+  - servedTurn : int = -1
+  - readyToPayTurn : int = -1
+  - satisfactionAtPayment : int = -1
+  + canOrder() : boolean
+  + canBeServed(in turn : int) : boolean
+  + canPay(in turn : int) : boolean
+  + placeOrder(in item : MenuItemInterface, in billCents : int) : void
+  + receiveFood(in turn : int) : void
+  + finishEating(in turn : int) : void
+  + pay(in turn : int) : int
+  + waitAtTurnEnd() : void
+  + selectItem(in menu : List<MenuItemInterface>) : MenuItemInterface
+  + billAfterDiscount(in baseCents : int) : int
+  # satisfactionLoss() : int {abstract}
+  # chooseMenuItem(in menu : List<MenuItemInterface>) : MenuItemInterface {abstract}
+}
+
+class RegularCustomer {
+  + RegularCustomer(in id : int)
+  # satisfactionLoss() : int
+  # chooseMenuItem(in menu : List<MenuItemInterface>) : MenuItemInterface
+}
+
+class Table <<entity>> {
+  - number : int
+  + isFree() : boolean
+  + seat(in customer : Customer) : void
+  ~ release(in customer : Customer) : void
+}
+
+class Order <<entity>> {
+  - billCents : int {readOnly}
+  - unitsPrepared : int = 0
+  - readyTurn : int = -1
+  - status : Order.Status = PREPARING
+  + Order(in item : MenuItemInterface, in billCents : int)
+  + canBeServed(in turn : int) : boolean
+  + prepareOneUnit(in turn : int) : void
+  + serve(in turn : int) : void
+  + markPaid() : void
+  + cancel() : void
+}
+
+interface MenuItemInterface <<interface>> {
+  + getDisplayName() : String
+  + getPriceCents() : int
+  + getPreparationUnits() : int
+}
+
+class MenuItem {
+  - displayName : String {readOnly}
+  - priceCents : int {readOnly}
+  - preparationUnits : int {readOnly}
+  + MenuItem(in displayName : String, in priceCents : int, in preparationUnits : int)
+}
+
+class CustomerView {
+  - id : int
+  - satisfaction : int
+  - state : Customer.State
+  - tableNumber : int
+  - dishName : String
+  - orderStatus : Order.Status
+  - unitsPrepared : int
+  - preparationUnits : int
+  - billCents : int
+  + getId() : int
+  + getSatisfaction() : int
+  + getState() : Customer.State
+  + getTableNumber() : int
+  + hasOrder() : boolean
+  + getDishName() : String
+  + getOrderStatus() : Order.Status
+  + getUnitsPrepared() : int
+  + getPreparationUnits() : int
+  + getBillCents() : int
+}
+
+class TableView {
+  - number : int
+  + isFree() : boolean
+  + getNumber() : int
+  + getOccupant() : CustomerView
+}
+
+enum TurnPhase <<enumeration>> {
+  BETWEEN_TURNS
+  WAITER
+  CHEF
+  END_OF_TURN
+  FINISHED
+}
+
+enum WaiterTask <<enumeration>> {
+  SEAT
+  ORDER
+  SERVE
+}
+
+enum CustomerState <<enumeration>> {
+  WAITING
+  SEATED
+  EATING
+  READY_TO_PAY
+  PAID
+  LEFT
+}
+
+enum OrderStatus <<enumeration>> {
+  PREPARING
+  READY
+  SERVED
+  PAID
+  CANCELLED
+}
+
+RestaurantRush -down-> "1" RestaurantGameInterface : game
+RestaurantGameInterface <|.. RestaurantGame
+RestaurantGame "1" *-down- "1" Waiter : waiter
+RestaurantGame "1" *-down- "1" Chef : chef
+RestaurantGame "1" *-down- "1" Cashier : cashier
+Staff <|-down- Waiter
+Staff <|-down- Chef
+Staff <|-down- Cashier
+RestaurantGame "1" *-down- "0..6" Customer : customers
+RestaurantGame "1" *-down- "2" Table : tables
+Customer "0..1" -right- "0..1" Table : table / occupant
+Customer <|-down- RegularCustomer
+Customer "1" *-down- "0..1" Order : order
+Order "0..*" -right-> "1" MenuItemInterface : item
+MenuItemInterface <|.. MenuItem
+RestaurantGame -right-> "3" MenuItemInterface : menu {ordered}
+RestaurantGame --> TurnPhase : phase
+RestaurantGame ..> WaiterTask : eligibility query
+RestaurantGame ..> CustomerView : returns snapshots
+RestaurantGame ..> TableView : returns snapshots
+' Keep snapshot links above the view boxes and view-to-enum links below them.
+CustomerView -up..> Customer : snapshot source
+TableView -up..> Table : snapshot source
+TableView -left-> "0..1" CustomerView : occupant
+CustomerView -down-> CustomerState : state
+CustomerView -down-> OrderStatus : order status
+CustomerView -[hidden]right- TableView
+CustomerState -[hidden]right- OrderStatus
+
+legend bottom left
+  |= Symbol |= Meaning |
+  | + / - / # / ~ | public / private / protected / package |
+  | {abstract} | abstract class or operation |
+  | Solid hollow triangle | generalisation (inheritance) |
+  | Dashed hollow triangle | interface realisation |
+  | Filled diamond at owner | composition |
+  | Open arrowhead | navigable association |
+  | Dashed arrow | dependency |
+endlegend
+footer IMPLEMENTED STAGE 1 - selected members, not every accessor or validation branch | SC2002 Chapter 6 notation.
+@enduml

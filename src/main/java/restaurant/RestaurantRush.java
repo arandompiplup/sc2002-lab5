@@ -77,7 +77,7 @@ public final class RestaurantRush {
             game.customers().forEach(customer -> output.println("  " + describe(customer)));
         }
 
-        output.println("Staff tasks: Waiter - 1 task available; Chef - 1 preparation unit available; Cashier - automatic payment (up to 1).");
+        output.println("Each turn: Waiter can only help 1 customer (seat, take order, serve), Chef can prepare only advance one order by one preparation unit, Cashier automatically collects payment for up to one ready-to-pay customer.");
     }
 
     private String describe(CustomerView customer) {
