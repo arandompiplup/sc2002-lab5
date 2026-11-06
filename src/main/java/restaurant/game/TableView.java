@@ -12,4 +12,6 @@ public final class TableView {
     }
 
     public boolean isFree() { return this.occupant == null; }
+    public int getNumber() { return number; }
+    public CustomerView getOccupant() { return occupant; }
 }

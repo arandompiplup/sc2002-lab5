@@ -14,6 +14,7 @@ public final class CustomerView {
     private final Order.Status orderStatus;
     private final int unitsPrepared;
     private final int preparationUnits;
+    private final int billCents; //order's price stored in cents
 
     CustomerView(Customer customer) {
         this.id = customer.getId();
@@ -26,9 +27,17 @@ public final class CustomerView {
         this.orderStatus = order == null ? null : order.getStatus();
         this.unitsPrepared = order == null ? 0 : order.getUnitsPrepared();
         this.preparationUnits = order == null ? 0 : order.getItem().getPreparationUnits();
+        this.billCents = order == null ? 0 : order.getBillCents();
     }
 
-    public boolean hasOrder() {
-        return orderStatus != null;
-    }
+    public int getId() { return id; }
+    public int getSatisfaction() { return satisfaction; }
+    public Customer.State getState() { return state; }
+    public int getTableNumber() { return tableNumber; }
+    public boolean hasOrder() { return orderStatus != null; }
+    public String getDishName() { return dishName; }
+    public Order.Status getOrderStatus() { return orderStatus; }
+    public int getUnitsPrepared() { return unitsPrepared; }
+    public int getPreparationUnits() { return preparationUnits; }
+    public int getBillCents() { return billCents; }
 }
