@@ -83,7 +83,7 @@ public final class RestaurantRush {
     private String describe(CustomerView customer) {
         StringBuilder sb = new StringBuilder()
                 .append("#").append(customer.getId())
-                .append(" :").append(customer.getState()).append("|")
+                .append(" : ").append(customer.getState()).append(" |")
                 .append(" satisfaction ").append(customer.getSatisfaction());
 
         if (customer.hasOrder()) {
