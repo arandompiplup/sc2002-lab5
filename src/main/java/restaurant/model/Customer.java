@@ -1,8 +1,12 @@
 package restaurant.model;
+
 import java.util.List;
 
 public abstract class Customer {
-    public enum State { WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT }
+    public enum State {
+        WAITING, SEATED, EATING, READY_TO_PAY, PAID, LEFT
+    }
+
     private final int id;
     private int satisfaction = 100;
     private State state = State.WAITING;
@@ -40,6 +44,7 @@ public abstract class Customer {
         if (readyToPayTurn == -1) {
             throw new IllegalStateException("Customer is not ready to pay yet.");
         }
+
         return readyToPayTurn;
     }
 
@@ -60,14 +65,15 @@ public abstract class Customer {
     }
 
     void seatAtTable(Table table) {
-        if (state != State.WAITING)
+        if (state != State.WAITING) {
             throw new IllegalStateException("Customer cannot be seated now.");
-        
-        if (table == null)
+        }
+        if (table == null) {
             throw new IllegalArgumentException("Table cannot be null.");
-        
-        if (!table.isFree())
+        }
+        if (!table.isFree()) {
             throw new IllegalStateException("Table is not free.");
+        }
 
         this.table = table;
         state = State.SEATED;
@@ -88,8 +94,9 @@ public abstract class Customer {
     }
 
     public void receiveFood(int turn) {
-        if (!canBeServed(turn))
+        if (!canBeServed(turn)) {
             throw new IllegalStateException("Customer cannot be served now.");
+        }
 
         order.serve(turn);
         servedTurn = turn;
@@ -97,16 +104,18 @@ public abstract class Customer {
     }
 
     public void finishEating(int turn) {
-        if (state != State.EATING || servedTurn >= turn)
+        if (state != State.EATING || servedTurn >= turn) {
             throw new IllegalStateException("Customer cannot finish eating now.");
+        }
 
         readyToPayTurn = turn;
         state = State.READY_TO_PAY;
     }
 
     public int pay(int turn) {
-        if (!canPay(turn))
+        if (!canPay(turn)) {
             throw new IllegalStateException("Customer cannot pay now.");
+        }
 
         satisfactionAtPayment = satisfaction;
         order.markPaid();
@@ -118,12 +127,18 @@ public abstract class Customer {
     }
 
     public void waitAtTurnEnd() {
-        if (state != State.WAITING && state != State.SEATED) return;
+        if (state != State.WAITING && state != State.SEATED) {
+            return;
+        }
 
         satisfaction = Math.max(0, satisfaction - satisfactionLoss());
-        if (satisfaction > 0) return;
+        if (satisfaction > 0) {
+            return;
+        }
 
-        if (order != null) order.cancel();
+        if (order != null) {
+            order.cancel();
+        }
 
         if (table != null) {
             table.release(this);
@@ -140,6 +155,7 @@ public abstract class Customer {
         if (menu == null || menu.isEmpty()) {
             throw new IllegalArgumentException("Menu cannot be empty.");
         }
+
         return chooseMenuItem(menu);
     }
 
@@ -147,6 +163,7 @@ public abstract class Customer {
         if (baseCents < 0) {
             throw new IllegalArgumentException("Bill cannot be negative.");
         }
+
         return baseCents;
     }
 

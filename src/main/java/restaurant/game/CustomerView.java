@@ -1,9 +1,7 @@
 package restaurant.game;
 
-
 import restaurant.model.Customer;
 import restaurant.model.Order;
-
 
 public final class CustomerView {
     private final int id;
@@ -14,7 +12,7 @@ public final class CustomerView {
     private final Order.Status orderStatus;
     private final int unitsPrepared;
     private final int preparationUnits;
-    private final int billCents; //order's price stored in cents
+    private final int billCents;
 
     CustomerView(Customer customer) {
         this.id = customer.getId();
@@ -30,14 +28,43 @@ public final class CustomerView {
         this.billCents = order == null ? 0 : order.getBillCents();
     }
 
-    public int getId() { return id; }
-    public int getSatisfaction() { return satisfaction; }
-    public Customer.State getState() { return state; }
-    public int getTableNumber() { return tableNumber; }
-    public boolean hasOrder() { return orderStatus != null; }
-    public String getDishName() { return dishName; }
-    public Order.Status getOrderStatus() { return orderStatus; }
-    public int getUnitsPrepared() { return unitsPrepared; }
-    public int getPreparationUnits() { return preparationUnits; }
-    public int getBillCents() { return billCents; }
+    public int getId() {
+        return id;
+    }
+
+    public int getSatisfaction() {
+        return satisfaction;
+    }
+
+    public Customer.State getState() {
+        return state;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public boolean hasOrder() {
+        return orderStatus != null;
+    }
+
+    public String getDishName() {
+        return dishName;
+    }
+
+    public Order.Status getOrderStatus() {
+        return orderStatus;
+    }
+
+    public int getUnitsPrepared() {
+        return unitsPrepared;
+    }
+
+    public int getPreparationUnits() {
+        return preparationUnits;
+    }
+
+    public int getBillCents() {
+        return billCents;
+    }
 }

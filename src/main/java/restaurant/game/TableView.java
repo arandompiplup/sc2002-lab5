@@ -11,7 +11,15 @@ public final class TableView {
         this.occupant = table.getOccupant() == null ? null : new CustomerView(table.getOccupant());
     }
 
-    public boolean isFree() { return this.occupant == null; }
-    public int getNumber() { return number; }
-    public CustomerView getOccupant() { return occupant; }
+    public boolean isFree() {
+        return this.occupant == null;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public CustomerView getOccupant() {
+        return occupant;
+    }
 }

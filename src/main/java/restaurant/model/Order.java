@@ -2,7 +2,10 @@ package restaurant.model;
 
 public final class Order {
 
-    public enum Status { PREPARING, READY, SERVED, PAID, CANCELLED }
+    public enum Status {
+        PREPARING, READY, SERVED, PAID, CANCELLED
+    }
+
     private final MenuItemInterface item;
     private final int billCents;
     private int unitsPrepared = 0;
@@ -29,14 +32,15 @@ public final class Order {
     public int getBillCents() {
         return billCents;
     }
-    
+
     public boolean canBeServed(int turn) {
         return status == Status.READY && readyTurn < turn;
     }
 
     public void prepareOneUnit(int turn) {
-        if (status != Status.PREPARING)
+        if (status != Status.PREPARING) {
             throw new IllegalStateException("Order cannot be prepared now.");
+        }
 
         unitsPrepared++;
         if (unitsPrepared >= item.getPreparationUnits()) {
@@ -44,24 +48,27 @@ public final class Order {
             readyTurn = turn;
         }
     }
-    
+
     public void serve(int turn) {
-        if (status != Status.READY || readyTurn >= turn)
+        if (status != Status.READY || readyTurn >= turn) {
             throw new IllegalStateException("Order cannot be served now.");
+        }
 
         status = Status.SERVED;
     }
 
     public void markPaid() {
-        if (status != Status.SERVED)
+        if (status != Status.SERVED) {
             throw new IllegalStateException("Order cannot be marked paid now.");
+        }
 
         status = Status.PAID;
     }
 
     public void cancel() {
-        if (status != Status.PREPARING && status != Status.READY)
+        if (status != Status.PREPARING && status != Status.READY) {
             throw new IllegalStateException("Order cannot be cancelled now.");
+        }
 
         status = Status.CANCELLED;
     }

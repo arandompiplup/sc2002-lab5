@@ -27,16 +27,22 @@ public final class RestaurantGame implements RestaurantGameInterface {
     public void startTurn() {
         requirePhase(TurnPhase.BETWEEN_TURNS);
         turn++;
+
         waiter.beginTurn();
         chef.beginTurn();
         cashier.beginTurn();
+
         eatingAtTurnStart.clear();
         for (Customer customer : customers) {
-            if (customer.getState() == Customer.State.EATING) eatingAtTurnStart.add(customer);
+            if (customer.getState() == Customer.State.EATING) {
+                eatingAtTurnStart.add(customer);
+            }
         }
+
         if ((turn - 1) % 3 == 0) {
             customers.add(new RegularCustomer(customers.size() + 1));
         }
+
         phase = TurnPhase.WAITER;
     }
 
@@ -50,8 +56,12 @@ public final class RestaurantGame implements RestaurantGameInterface {
     @Override
     public void order(int customerId) {
         requirePhase(TurnPhase.WAITER);
+
         Customer customer = findCustomer(customerId);
-        if (!customer.canOrder()) throw new IllegalStateException("Customer cannot order now.");
+        if (!customer.canOrder()) {
+            throw new IllegalStateException("Customer cannot order now.");
+        }
+
         MenuItemInterface item = customer.selectItem(menu);
         waiter.takeOrder(customer, item, calculateBill(customer, item));
         phase = TurnPhase.CHEF;
@@ -87,14 +97,19 @@ public final class RestaurantGame implements RestaurantGameInterface {
     @Override
     public void finishTurn() {
         requirePhase(TurnPhase.END_OF_TURN);
-        // Only customers already eating when this turn began have eaten a full turn.
-        for (Customer customer : eatingAtTurnStart) customer.finishEating(turn);
+
+        for (Customer customer : eatingAtTurnStart)
+            customer.finishEating(turn);
         revenueCents += cashier.collectPayment(customers, turn);
+
         for (Customer customer : customers) {
             Customer.State previous = customer.getState();
             customer.waitAtTurnEnd();
-            if (previous != Customer.State.LEFT && customer.getState() == Customer.State.LEFT) departures++;
+            if (previous != Customer.State.LEFT && customer.getState() == Customer.State.LEFT) {
+                departures++;
+            }
         }
+
         phase = turn == MAX_TURNS ? TurnPhase.FINISHED : TurnPhase.BETWEEN_TURNS;
     }
 
@@ -112,15 +127,20 @@ public final class RestaurantGame implements RestaurantGameInterface {
     @Override
     public boolean victory() {
         requirePhase(TurnPhase.FINISHED);
+
         return paidCount() >= 4 && revenueCents >= 4500 && averagePaidSatisfaction() >= 60;
     }
 
     @Override
     public List<CustomerView> eligibleFor(WaiterTask task) {
         Objects.requireNonNull(task, "Task cannot be null.");
-        if (phase != TurnPhase.WAITER) return List.of();
+        if (phase != TurnPhase.WAITER) {
+            return List.of();
+        }
+
         return customers.stream().filter(c -> switch (task) {
-            case SEAT -> c.getState() == Customer.State.WAITING && tables.stream().anyMatch(Table::isFree);
+            case SEAT ->
+                c.getState() == Customer.State.WAITING && tables.stream().anyMatch(Table::isFree);
             case ORDER -> c.canOrder();
             case SERVE -> c.canBeServed(turn);
         }).map(CustomerView::new).toList();
@@ -128,9 +148,12 @@ public final class RestaurantGame implements RestaurantGameInterface {
 
     @Override
     public List<CustomerView> eligibleForPreparation() {
-        if (phase != TurnPhase.CHEF) return List.of();
-        return customers.stream().filter(c -> c.getOrder() != null
-                && c.getOrder().getStatus() == Order.Status.PREPARING)
+        if (phase != TurnPhase.CHEF) {
+            return List.of();
+        }
+
+        return customers.stream().filter(
+                c -> c.getOrder() != null && c.getOrder().getStatus() == Order.Status.PREPARING)
                 .map(CustomerView::new).toList();
     }
 
@@ -150,11 +173,30 @@ public final class RestaurantGame implements RestaurantGameInterface {
         return tables.stream().map(TableView::new).toList();
     }
 
-    @Override public int turn() { return turn; }
-    @Override public TurnPhase phase() { return phase; }
-    @Override public int revenueCents() { return revenueCents; }
-    @Override public int servedCount() { return servedCount; }
-    @Override public int departures() { return departures; }
+    @Override
+    public int turn() {
+        return turn;
+    }
+
+    @Override
+    public TurnPhase phase() {
+        return phase;
+    }
+
+    @Override
+    public int revenueCents() {
+        return revenueCents;
+    }
+
+    @Override
+    public int servedCount() {
+        return servedCount;
+    }
+
+    @Override
+    public int departures() {
+        return departures;
+    }
 
     private int calculateBill(Customer customer, MenuItemInterface item) {
         return customer.billAfterDiscount(item.getPriceCents());
@@ -171,6 +213,9 @@ public final class RestaurantGame implements RestaurantGameInterface {
     }
 
     private void requirePhase(TurnPhase expected) {
-        if (phase != expected) throw new IllegalStateException("Expected phase " + expected + ", but was " + phase + ".");
+        if (phase != expected) {
+            throw new IllegalStateException(
+                    "Expected phase " + expected + ", but was " + phase + ".");
+        }
     }
 }

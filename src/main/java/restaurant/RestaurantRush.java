@@ -48,8 +48,8 @@ public final class RestaurantRush {
     }
 
     private void showTurnState() {
-        output.printf("%nTurn %d/%d | Revenue %s | Average paid satisfaction %s%n",
-                game.turn(), RestaurantGame.MAX_TURNS, money(game.revenueCents()), averageText());
+        output.printf("%nTurn %d/%d | Revenue %s | Average paid satisfaction %s%n", game.turn(),
+                RestaurantGame.MAX_TURNS, money(game.revenueCents()), averageText());
 
         List<CustomerView> queue = game.waiting();
         output.println("Waiting queue:");
@@ -77,21 +77,21 @@ public final class RestaurantRush {
             game.customers().forEach(customer -> output.println("  " + describe(customer)));
         }
 
-        output.println("Each turn: Waiter can only help 1 customer (seat, take order, serve), Chef can prepare only advance one order by one preparation unit, Cashier automatically collects payment for up to one ready-to-pay customer.");
+        output.println(
+                "Each turn: Waiter can only help 1 customer (seat, take order, serve), Chef can prepare only advance one order by one preparation unit, Cashier automatically collects payment for up to one ready-to-pay customer.");
     }
 
     private String describe(CustomerView customer) {
-        StringBuilder sb = new StringBuilder()
-                .append("#").append(customer.getId())
-                .append(" : ").append(customer.getState()).append(" |")
-                .append(" satisfaction ").append(customer.getSatisfaction());
+        StringBuilder sb = new StringBuilder().append("#").append(customer.getId()).append(" : ")
+                .append(customer.getState()).append(" |").append(" satisfaction ")
+                .append(customer.getSatisfaction());
 
         if (customer.hasOrder()) {
-            sb.append(" | ").append(customer.getDishName())
-                .append(" - ").append(customer.getOrderStatus())
-                .append(" (").append(customer.getUnitsPrepared()).append('/')
-                .append(customer.getPreparationUnits()).append(" units, ")
-                .append(money(customer.getBillCents())).append(')');
+            sb.append(" | ").append(customer.getDishName()).append(" - ")
+                    .append(customer.getOrderStatus()).append(" (")
+                    .append(customer.getUnitsPrepared()).append('/')
+                    .append(customer.getPreparationUnits()).append(" units, ")
+                    .append(money(customer.getBillCents())).append(')');
         } else {
             sb.append(" | no order");
         }
@@ -116,7 +116,8 @@ public final class RestaurantRush {
                     case 1 -> seatCustomer();
                     case 2 -> takeOrder();
                     case 3 -> serveCustomer();
-                    default -> output.println("Enter 0, 1, 2, or 3. The Waiter task is still available.");
+                    default ->
+                        output.println("Enter 0, 1, 2, or 3. The Waiter task is still available.");
                 }
             } catch (IllegalArgumentException | IllegalStateException e) {
                 output.println("That action could not be completed: " + e.getMessage());
@@ -163,10 +164,11 @@ public final class RestaurantRush {
             return;
         }
         CustomerView customer = chooseCustomer("Customer ID to take an order for: ", eligible);
-        
+
         game.order(customer.getId());
         CustomerView updated = findCustomer(customer.getId());
-        output.printf("Customer #%d chose %s (%s).%n", updated.getId(), updated.getDishName(), money(updated.getBillCents()));
+        output.printf("Customer #%d chose %s (%s).%n", updated.getId(), updated.getDishName(),
+                money(updated.getBillCents()));
     }
 
     private void serveCustomer() {
@@ -185,7 +187,7 @@ public final class RestaurantRush {
         while (game.phase() == TurnPhase.CHEF) {
             List<CustomerView> eligible = game.eligibleForPreparation();
             output.printf("%nChef: 1 Prepare an order (%d eligible), 0 Wait%n", eligible.size());
-            
+
             int choice = readInt("Chef choice: ");
             if (choice == 0) {
                 game.waitChef();
@@ -200,12 +202,14 @@ public final class RestaurantRush {
                 continue;
             }
 
-            CustomerView customer = chooseCustomer("Customer ID whose order to prepare: ", eligible);
+            CustomerView customer =
+                    chooseCustomer("Customer ID whose order to prepare: ", eligible);
             try {
                 game.prepare(customer.getId());
                 CustomerView updated = findCustomer(customer.getId());
                 output.printf("Prepared %s for customer #%d (%d/%d units).%n",
-                        updated.getDishName(), updated.getId(), updated.getUnitsPrepared(), updated.getPreparationUnits());
+                        updated.getDishName(), updated.getId(), updated.getUnitsPrepared(),
+                        updated.getPreparationUnits());
             } catch (IllegalArgumentException | IllegalStateException e) {
                 output.println("That action could not be completed: " + e.getMessage());
                 output.println("Choose again; the Chef unit has not been used.");
@@ -223,24 +227,27 @@ public final class RestaurantRush {
         while (true) {
             int id = readInt(prompt);
             for (T candidate : choices) {
-                if (idOf.applyAsInt(candidate) == id) return candidate;
+                if (idOf.applyAsInt(candidate) == id) {
+                    return candidate;
+                }
             }
             output.println("That ID is not eligible for this action. Choose one from the list.");
         }
     }
 
     private CustomerView findCustomer(int id) {
-        return game.customers().stream()
-                .filter(customer -> customer.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Customer disappeared from the game."));
+        return game.customers().stream().filter(customer -> customer.getId() == id).findFirst()
+                .orElseThrow(
+                        () -> new IllegalStateException("Customer disappeared from the game."));
     }
 
     private int readInt(String prompt) {
         while (true) {
             output.print(prompt);
             output.flush();
-            if (!input.hasNextLine()) throw new NoSuchElementException("No more console input.");
+            if (!input.hasNextLine()) {
+                throw new NoSuchElementException("No more console input.");
+            }
             String line = input.nextLine().trim();
             try {
                 return Integer.parseInt(line);
@@ -251,18 +258,23 @@ public final class RestaurantRush {
     }
 
     private void showTurnResult() {
-        output.printf("End of turn %d: served %d, unhappy departures %d, revenue %s, average paid satisfaction %s, turns used %d.%n",
-                game.turn(), game.servedCount(), game.departures(), money(game.revenueCents()), averageText(), game.turn());
+        output.printf(
+                "End of turn %d: served %d, unhappy departures %d, revenue %s, average paid satisfaction %s, turns used %d.%n",
+                game.turn(), game.servedCount(), game.departures(), money(game.revenueCents()),
+                averageText(), game.turn());
     }
 
     private void showFinalResult() {
         output.printf("%nFinal result: %s%n", game.victory() ? "VICTORY" : "DEFEAT");
-        output.printf("Paid customers: %d | Revenue: %s | Average paid satisfaction: %s | Turns used: %d%n",
+        output.printf(
+                "Paid customers: %d | Revenue: %s | Average paid satisfaction: %s | Turns used: %d%n",
                 game.paidCount(), money(game.revenueCents()), averageText(), game.turn());
     }
 
     private String averageText() {
-        if (game.paidCount() == 0) return "N/A";
+        if (game.paidCount() == 0) {
+            return "N/A";
+        }
         return String.format(Locale.ROOT, "%.1f", game.averagePaidSatisfaction());
     }
 

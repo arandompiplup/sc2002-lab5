@@ -18,7 +18,6 @@ public final class Chef extends Staff {
         }
 
         order.prepareOneUnit(turn);
-
         recordSuccessfulTask();
     }
 }

@@ -13,13 +13,11 @@ public final class Cashier extends Staff {
 
         Customer oldest = null;
 
-        // Checks for oldest customer amongst all customers eligible for payment
         for (Customer customer : customers) {
             if (customer != null && customer.canPay(turn)) {
-                if (oldest == null
-                        || customer.getReadyToPayTurn() < oldest.getReadyToPayTurn()
+                if (oldest == null || customer.getReadyToPayTurn() < oldest.getReadyToPayTurn()
                         || (customer.getReadyToPayTurn() == oldest.getReadyToPayTurn()
-                            && customer.getId() < oldest.getId())) {
+                                && customer.getId() < oldest.getId())) {
                     oldest = customer;
                 }
             }
