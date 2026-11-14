@@ -1,7 +1,0 @@
-@startuml stage1
-!$STAGE = 1
-title Restaurant Rush - proposed Stage 1\nRegular customers and constructor-based menu items
-!include ../shared/style.puml
-!include ../shared/class-model.puml
-caption Menu: Salad (900 cents / 1 unit), Burger (1500 / 1), Pasta (1800 / 2). No Stage 2/3 features.
-@enduml
