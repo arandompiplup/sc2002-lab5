@@ -48,8 +48,11 @@ public final class RestaurantRush {
     }
 
     private void showTurnState() {
-        output.printf("%nTurn %d/%d | Revenue %s | Average paid satisfaction %s%n", game.turn(),
-                RestaurantGame.MAX_TURNS, money(game.revenueCents()), averageText());
+        output.printf("%nTurn %d/%d | Revenue %s | Average paid satisfaction %s%n",
+                game.turn(),
+                RestaurantGame.MAX_TURNS,
+                money(game.revenueCents()),
+                averageText());
 
         List<CustomerView> queue = game.waiting();
         output.println("Waiting queue:");
@@ -57,7 +60,7 @@ public final class RestaurantRush {
             output.println("  (empty)");
         } else {
             for (CustomerView c : queue) {
-                output.println("  Customer " + describe(c));
+                output.println("  " + describe(c));
             }
         }
 
@@ -82,20 +85,27 @@ public final class RestaurantRush {
     }
 
     private String describe(CustomerView customer) {
-        StringBuilder sb = new StringBuilder().append("#").append(customer.getId()).append(" : ")
-                .append(customer.getState()).append(" |").append(" satisfaction ")
-                .append(customer.getSatisfaction());
+        StringBuilder sb = new StringBuilder(String.format(Locale.ROOT,
+                "%-8s #%-2d : %-12s | satisfaction %3d",
+                customer.getTypeName(),
+                customer.getId(),
+                customer.getState(),
+                customer.getSatisfaction()));
 
         if (customer.hasOrder()) {
-            sb.append(" | ").append(customer.getDishName()).append(" - ")
-                    .append(customer.getOrderStatus()).append(" (")
-                    .append(customer.getUnitsPrepared()).append('/')
+            sb.append(" | ").append(customer.getDishName())
+                    .append(" - ").append(customer.getOrderStatus())
+                    .append(" (").append(customer.getUnitsPrepared()).append('/')
                     .append(customer.getPreparationUnits()).append(" units, ")
                     .append(money(customer.getBillCents())).append(')');
         } else {
             sb.append(" | no order");
         }
         return sb.toString();
+    }
+
+    private String customerLabel(CustomerView customer) {
+        return customer.getTypeName() + " #" + customer.getId();
     }
 
     private void waiterChoice() {
@@ -154,7 +164,7 @@ public final class RestaurantRush {
         }
 
         game.seat(customer.getId(), tableNumber);
-        output.printf("Seated customer #%d at table %d.%n", customer.getId(), tableNumber);
+        output.printf("Seated %s at table %d.%n", customerLabel(customer), tableNumber);
     }
 
     private void takeOrder() {
@@ -167,7 +177,9 @@ public final class RestaurantRush {
 
         game.order(customer.getId());
         CustomerView updated = findCustomer(customer.getId());
-        output.printf("Customer #%d chose %s (%s).%n", updated.getId(), updated.getDishName(),
+        output.printf("%s chose %s (%s).%n",
+                customerLabel(updated),
+                updated.getDishName(),
                 money(updated.getBillCents()));
     }
 
@@ -180,7 +192,7 @@ public final class RestaurantRush {
         CustomerView customer = chooseCustomer("Customer ID to serve: ", eligible);
 
         game.serve(customer.getId());
-        output.printf("Served customer #%d.%n", customer.getId());
+        output.printf("Served %s.%n", customerLabel(customer));
     }
 
     private void chefChoice() {
@@ -207,8 +219,10 @@ public final class RestaurantRush {
             try {
                 game.prepare(customer.getId());
                 CustomerView updated = findCustomer(customer.getId());
-                output.printf("Prepared %s for customer #%d (%d/%d units).%n",
-                        updated.getDishName(), updated.getId(), updated.getUnitsPrepared(),
+                output.printf("Prepared %s for %s (%d/%d units).%n",
+                        updated.getDishName(),
+                        customerLabel(updated),
+                        updated.getUnitsPrepared(),
                         updated.getPreparationUnits());
             } catch (IllegalArgumentException | IllegalStateException e) {
                 output.println("That action could not be completed: " + e.getMessage());
@@ -260,15 +274,22 @@ public final class RestaurantRush {
     private void showTurnResult() {
         output.printf(
                 "End of turn %d: served %d, unhappy departures %d, revenue %s, average paid satisfaction %s, turns used %d.%n",
-                game.turn(), game.servedCount(), game.departures(), money(game.revenueCents()),
-                averageText(), game.turn());
+                game.turn(),
+                game.servedCount(),
+                game.departures(),
+                money(game.revenueCents()),
+                averageText(),
+                game.turn());
     }
 
     private void showFinalResult() {
         output.printf("%nFinal result: %s%n", game.victory() ? "VICTORY" : "DEFEAT");
         output.printf(
                 "Paid customers: %d | Revenue: %s | Average paid satisfaction: %s | Turns used: %d%n",
-                game.paidCount(), money(game.revenueCents()), averageText(), game.turn());
+                game.paidCount(),
+                money(game.revenueCents()),
+                averageText(),
+                game.turn());
     }
 
     private String averageText() {

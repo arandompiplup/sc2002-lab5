@@ -9,6 +9,11 @@ public final class RegularCustomer extends Customer {
     }
 
     @Override
+    public String getTypeName() {
+        return "Customer";
+    }
+
+    @Override
     protected int satisfactionLoss() {
         return 8;
     }

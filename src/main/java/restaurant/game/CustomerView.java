@@ -5,6 +5,7 @@ import restaurant.model.Order;
 
 public final class CustomerView {
     private final int id;
+    private final String typeName;
     private final int satisfaction;
     private final Customer.State state;
     private final int tableNumber;
@@ -16,6 +17,7 @@ public final class CustomerView {
 
     CustomerView(Customer customer) {
         this.id = customer.getId();
+        this.typeName = customer.getTypeName();
         this.satisfaction = customer.getSatisfaction();
         this.state = customer.getState();
         this.tableNumber = customer.getTable() == null ? -1 : customer.getTable().getNumber();
@@ -30,6 +32,10 @@ public final class CustomerView {
 
     public int getId() {
         return id;
+    }
+
+    public String getTypeName() {
+        return typeName;
     }
 
     public int getSatisfaction() {

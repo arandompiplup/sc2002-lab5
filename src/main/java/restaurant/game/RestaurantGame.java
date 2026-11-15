@@ -40,10 +40,22 @@ public final class RestaurantGame implements RestaurantGameInterface {
         }
 
         if ((turn - 1) % 3 == 0) {
-            customers.add(new RegularCustomer(customers.size() + 1));
+            int customerId = customers.size() + 1;
+            customers.add(createArrivalCustomer(customerId));
         }
 
         phase = TurnPhase.WAITER;
+    }
+
+    private Customer createArrivalCustomer(int customerId) {
+        switch (customerId) {
+            case 2:
+                return new VIPCustomer(customerId);
+            case 4:
+                return new CriticCustomer(customerId);
+            default:
+                return new RegularCustomer(customerId);
+        }
     }
 
     @Override
@@ -100,6 +112,7 @@ public final class RestaurantGame implements RestaurantGameInterface {
 
         for (Customer customer : eatingAtTurnStart)
             customer.finishEating(turn);
+
         revenueCents += cashier.collectPayment(customers, turn);
 
         for (Customer customer : customers) {

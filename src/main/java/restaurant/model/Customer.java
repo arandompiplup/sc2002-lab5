@@ -24,6 +24,8 @@ public abstract class Customer {
         return id;
     }
 
+    public abstract String getTypeName();
+
     public int getSatisfaction() {
         return satisfaction;
     }

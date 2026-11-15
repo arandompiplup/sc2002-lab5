@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" contentStyleType="text/css" data-diagram-type="CLASS" height="905" preserveAspectRatio="xMidYMid meet" style="background:#FFFFFF;" version="1.1" viewBox="0 0 1870 905" width="1870" zoomAndPan="magnify">
+  <title>Restaurant Rush — Stage 2 (manual SVG layout)</title>
+  <rect x="0" y="0" width="100%" height="100%" fill="#FFFFFF" />
+  <title>Restaurant Rush — Stage 2</title>
+  <defs />
+  <g>
+    <g class="title" data-source-line="1">
+      <text fill="#18354A" font-family="sans-serif" font-size="25" font-weight="bold" lengthAdjust="spacing" textLength="348.8159" x="935.0" y="36.6699" text-anchor="middle">Restaurant Rush — Stage 2</text>
+    </g>
+    <g class="entity" data-entity="RestaurantRush" data-source-line="11" data-uid="ent0002" id="entity_RestaurantRush" transform="translate(-335.625 -4.4993)">
+      <rect fill="#FFFFFF" height="60.7764" style="stroke:#263238;stroke-width:0.625;" width="140.174" x="675.625" y="80.0684" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="132.674" x="679.375" y="102.0288">RestaurantRush</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="676.875" x2="814.549" y1="111.7065" y2="111.7065" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="104.6173" x="683.125" y="132.417">+play() : void</text>
+    </g>
+    <g class="entity" data-entity="RestaurantGameInterface" data-source-line="14" data-uid="ent0003" id="entity_RestaurantGameInterface" transform="translate(-340.625 -4.6934)">
+      <rect fill="#FFFFFF" height="93.9146" style="stroke:#263238;stroke-width:0.625;" width="382.9419" x="885.625" y="56.6934" />
+      <text x="1077.0959" y="76.6934" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#263238">«interface»</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="211.8927" x="971.1496" y="98.1934">RestaurantGameInterface</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="886.875" x2="1267.3169" y1="102.3315" y2="102.3315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="145.3851" x="893.125" y="123.042">+startTurn() : void</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="367.9419" x="893.125" y="142.1802">+seat(customerId: int, tableNumber: int) : void</text>
+    </g>
+    <g class="entity" data-entity="RestaurantGame" data-source-line="18" data-uid="ent0004" id="entity_RestaurantGame" transform="translate(-340.125 50.0566)">
+      <rect fill="#FFFFFF" height="89.9146" style="stroke:#263238;stroke-width:0.625;" width="397.8033" x="878.125" y="196.9434" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="137.879" x="1008.0872" y="218.9038">RestaurantGame</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="879.375" x2="1274.6783" y1="228.5815" y2="228.5815" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="153.9227" x="885.625" y="249.292">-phase : TurnPhase</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="879.375" x2="1274.6783" y1="257.7197" y2="257.7197" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="382.8033" x="885.625" y="278.4302">-calculateBill(Customer, MenuItemInterface) : int</text>
+    </g>
+    <g class="entity" data-entity="Staff" data-source-line="23" data-uid="ent0005" id="entity_Staff" transform="translate(-46.25 21.8066)">
+      <rect fill="#FFFFFF" height="123.0527" style="stroke:#263238;stroke-width:0.625;" width="200.8356" x="296.25" y="549.1934" />
+      <text x="396.6678" y="569.1934" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#263238">«abstract»</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="38.8953" x="377.2202" y="590.6934">Staff</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="297.5" x2="495.8356" y1="594.8315" y2="594.8315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="156.5332" x="303.75" y="615.542">-available : boolean</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="297.5" x2="495.8356" y1="623.9697" y2="623.9697" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="153.5181" x="303.75" y="644.6802">+beginTurn() : void</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="185.8356" x="303.75" y="663.8184">+isAvailable() : boolean</text>
+    </g>
+    <g class="entity" data-entity="Chef" data-source-line="28" data-uid="ent0006" id="entity_Chef" transform="translate(374.5 30.5566)">
+      <rect fill="#FFFFFF" height="60.7764" style="stroke:#263238;stroke-width:0.625;" width="255.7507" x="7.5" y="389.4434" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="38.5065" x="116.1221" y="411.4038">Chef</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="8.75" x2="262.0007" y1="421.0815" y2="421.0815" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="240.7507" x="15" y="441.792">+prepare(Customer, int) : void</text>
+    </g>
+    <g class="entity" data-entity="Cashier" data-source-line="31" data-uid="ent0007" id="entity_Cashier" transform="translate(-271.25 30.5566)">
+      <rect fill="#FFFFFF" height="60.7764" style="stroke:#263238;stroke-width:0.625;" width="354.0045" x="286.25" y="389.4434" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="63.183" x="431.6608" y="411.4038">Cashier</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="287.5" x2="639.0045" y1="421.0815" y2="421.0815" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="339.0045" x="293.75" y="441.792">+collectPayment(List&lt;Customer&gt;, int) : int</text>
+    </g>
+    <g class="entity" data-entity="Waiter" data-source-line="34" data-uid="ent0008" id="entity_Waiter" transform="translate(-567.5 359.307)">
+      <rect fill="#FFFFFF" height="99.0527" style="stroke:#263238;stroke-width:0.625;" width="431.0809" x="662.5" y="370.6934" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="53.0188" x="851.5311" y="392.6538">Waiter</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="663.75" x2="1092.3309" y1="402.3315" y2="402.3315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="367.8943" x="670" y="423.042">+seat(customer: Customer, table: Table) : void</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="416.0809" x="670" y="442.1802">+takeOrder(Customer, MenuItemInterface, int) : void</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="221.3666" x="670" y="461.3184">+serve(Customer, int) : void</text>
+    </g>
+    <g class="entity" data-entity="Customer" data-source-line="40" data-uid="ent0009" id="entity_Customer" transform="translate(-56.875 64.3066)">
+      <rect fill="#FFFFFF" height="142.1909" style="stroke:#263238;stroke-width:0.625;" width="320.1874" x="1116.875" y="341.6934" />
+      <text x="1276.9687" y="361.6934" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#263238">«abstract»</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="81.0675" x="1236.4349" y="383.1934">Customer</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1118.125" x2="1435.8124" y1="387.3315" y2="387.3315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="136.1176" x="1124.375" y="408.042">-satisfaction : int</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="183.9154" x="1124.375" y="427.1802">-state : Customer.State</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1118.125" x2="1435.8124" y1="435.6079" y2="435.6079" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-style="italic" lengthAdjust="spacing" textLength="193.8177" x="1124.375" y="456.3184">+getTypeName() : String</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="305.1874" x="1124.375" y="475.4565">+billAfterDiscount(baseCents: int) : int</text>
+    </g>
+    <g class="entity" data-entity="RegularCustomer" data-source-line="46" data-uid="ent0010" id="entity_RegularCustomer" transform="translate(424.375 153.057)">
+      <rect fill="#FFFFFF" height="31.6382" style="stroke:#263238;stroke-width:0.625;" width="152.9169" x="520.625" y="601.9434" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="145.4169" x="524.375" y="623.9038">RegularCustomer</text>
+    </g>
+    <g class="entity" data-entity="VIPCustomer" data-source-line="47" data-uid="ent0011" id="entity_VIPCustomer" transform="translate(444.375 168.057)">
+      <rect fill="#EAF4EE" height="60.7764" style="stroke:#263238;stroke-width:0.625;" width="320.1874" x="695.625" y="586.9434" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="107.7753" x="801.8311" y="608.9038">VIPCustomer</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="696.875" x2="1014.5624" y1="618.5815" y2="618.5815" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="305.1874" x="703.125" y="639.292">+billAfterDiscount(baseCents: int) : int</text>
+    </g>
+    <g class="entity" data-entity="CriticCustomer" data-source-line="50" data-uid="ent0012" id="entity_CriticCustomer" transform="translate(471.25 153.057)">
+      <rect fill="#EAF4EE" height="31.6382" style="stroke:#263238;stroke-width:0.625;" width="133.3344" x="1038.75" y="601.9434" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="125.8344" x="1042.5" y="623.9038">CriticCustomer</text>
+    </g>
+    <g class="entity" data-entity="Table" data-source-line="51" data-uid="ent0013" id="entity_Table" transform="translate(-818.75 -3.1934)">
+      <rect fill="#FFFFFF" height="128.1909" style="stroke:#263238;stroke-width:0.625;" width="300.8032" x="1493.75" y="553.1934" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="46.3379" x="1620.9827" y="575.1538">Table</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1495" x2="1793.3032" y1="584.8315" y2="584.8315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="106.958" x="1501.25" y="605.542">-number : int</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1495" x2="1793.3032" y1="613.9697" y2="613.9697" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="148.3606" x="1501.25" y="634.6802">+isFree() : boolean</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="265.0702" x="1501.25" y="653.8184">+seat(customer: Customer) : void</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="285.8032" x="1501.25" y="672.9565">~release(customer: Customer) : void</text>
+    </g>
+    <g class="entity" data-entity="Order" data-source-line="57" data-uid="ent0014" id="entity_Order" transform="translate(275 -133.193)">
+      <rect fill="#FFFFFF" height="128.1909" style="stroke:#263238;stroke-width:0.625;" width="275.9839" x="1195" y="553.1934" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="48.4406" x="1308.7717" y="575.1538">Order</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1196.25" x2="1469.7339" y1="584.8315" y2="584.8315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="201.2604" x="1202.5" y="605.542">-billCents : int {readOnly}</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="171.2042" x="1202.5" y="624.6802">-status : Order.Status</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1196.25" x2="1469.7339" y1="633.1079" y2="633.1079" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="153.2166" x="1202.5" y="653.8184">+getBillCents() : int</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="260.9839" x="1202.5" y="672.9565">+prepareOneUnit(turn: int) : void</text>
+    </g>
+    <g class="entity" data-entity="MenuItemInterface" data-source-line="63" data-uid="ent0015" id="entity_MenuItemInterface" transform="translate(-16.25 -122.693)">
+      <rect fill="#FFFFFF" height="113.0527" style="stroke:#263238;stroke-width:0.625;" width="230.7886" x="1576.25" y="736.6934" />
+      <text x="1691.6443" y="756.6934" text-anchor="middle" font-family="sans-serif" font-size="17" fill="#263238">«interface»</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-style="italic" font-weight="bold" lengthAdjust="spacing" textLength="156.8823" x="1613.2031" y="778.1934">MenuItemInterface</text>
+      <line style="stroke:#263238;stroke-width:0.625;" x1="1577.5" x2="1805.7886" y1="782.3315" y2="782.3315" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="213.313" x="1583.75" y="803.042">+getDisplayName() : String</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="167.4829" x="1583.75" y="822.1802">+getPriceCents() : int</text>
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" lengthAdjust="spacing" textLength="215.7886" x="1583.75" y="841.3184">+getPreparationUnits() : int</text>
+    </g>
+    <g class="entity" data-entity="MenuItem" data-source-line="68" data-uid="ent0016" id="entity_MenuItem" transform="translate(-16.875 -60.6934)">
+      <rect fill="#FFFFFF" height="31.6382" style="stroke:#263238;stroke-width:0.625;" width="90.3687" x="1646.875" y="895.6934" />
+      <text fill="#000000" font-family="sans-serif" font-size="16.25" font-weight="bold" lengthAdjust="spacing" textLength="82.8687" x="1650.625" y="917.6538">MenuItem</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantRush" data-entity-2="RestaurantGameInterface" data-uid="lnk17" id="link_RestaurantRush_RestaurantGameInterface">
+      <path d="M 480.17,105.96 L 538.00,105.96" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="545.00,105.96 535.00,109.96 538.00,105.96 535.00,101.96" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="487" y="94" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">game</text>
+      <text x="528" y="126" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">1</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantGameInterface" data-entity-2="RestaurantGame" data-uid="lnk18" id="link_RestaurantGameInterface_RestaurantGame">
+      <path d="M 736.90,247.00 L 736.55,163.91" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" stroke-dasharray="8.75 8.75" />
+      <polygon points="736.47,145.91 742.55,163.89 730.55,163.94" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="RestaurantGame" data-entity-2="Cashier" data-uid="lnk19" id="link_RestaurantGame_Cashier">
+      <path d="M 548.35,340.54 L 252.18,420.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="561.87,336.91 556.27,343.07 548.35,340.54 553.94,334.38" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="363" y="366" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">cashier</text>
+      <text x="224.183015" y="410" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">1</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantGame" data-entity-2="Chef" data-uid="lnk20" id="link_RestaurantGame_Chef">
+      <path d="M 589.74,348.45 L 540.57,420.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="597.67,336.91 597.41,345.23 589.74,348.45 590.00,340.13" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="570" y="409" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">chef</text>
+      <text x="512.565434" y="410" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">1</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantGame" data-entity-2="Waiter" data-uid="lnk21" id="link_RestaurantGame_Waiter">
+      <path d="M 665.00,350.91 L 665.00,774.57 L 526.08,774.57" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="665.00,336.91 669.50,343.91 665.00,350.91 660.50,343.91" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="580" y="764" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">waiter</text>
+      <text x="538" y="796" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">1</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantGame" data-entity-2="Customer" data-uid="lnk22" id="link_RestaurantGame_Customer">
+      <path d="M 913.17,341.66 L 1130.44,406.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="900.00,336.91 908.11,335.06 913.17,341.66 905.06,343.52" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="982" y="355" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">customers</text>
+      <text x="1144" y="394.0" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">0..6</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantGame" data-entity-2="Table" data-uid="lnk23" id="link_RestaurantGame_Table">
+      <path d="M 754.37,349.78 L 840.44,550.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="748.84,336.91 755.73,341.57 754.37,349.78 747.47,345.12" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="835" y="493" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">tables</text>
+      <text x="853" y="539" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">2</text>
+    </g>
+    <g class="link" data-entity-1="RestaurantGame" data-entity-2="MenuItemInterface" data-uid="lnk24" id="link_RestaurantGame_MenuItemInterface">
+      <path d="M 935.80,257.79 L 1776.94,257.79 L 1776.94,607.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="1776.94,614.00 1772.94,604.00 1776.94,607.00 1780.94,604.00" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="1420" y="247" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">menu</text>
+      <text x="1750" y="601.0" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">3</text>
+    </g>
+    <g class="link" data-entity-1="Cashier" data-entity-2="Staff" data-uid="lnk25" id="link_Cashier_Staff">
+      <path d="M 298.20,480.78 L 298.20,553.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="298.20,571.00 292.20,553.00 304.20,553.00" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="Chef" data-entity-2="Staff" data-uid="lnk26" id="link_Chef_Staff">
+      <path d="M 433.15,480.78 L 433.15,553.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="433.15,571.00 427.15,553.00 439.15,553.00" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="Waiter" data-entity-2="Staff" data-uid="lnk27" id="link_Waiter_Staff">
+      <path d="M 400.63,730.00 L 400.63,712.05" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="400.63,694.05 406.63,712.05 394.63,712.05" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="Customer" data-entity-2="RegularCustomer" data-uid="lnk28" id="link_Customer_RegularCustomer">
+      <path d="M 1021.46,755.00 L 1113.04,564.41" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="1120.84,548.19 1118.45,567.01 1107.63,561.82" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="Customer" data-entity-2="VIPCustomer" data-uid="lnk29" id="link_Customer_VIPCustomer">
+      <path d="M 1300.09,755.00 L 1202.67,564.22" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="1194.48,548.19 1208.01,561.49 1197.32,566.95" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="Customer" data-entity-2="CriticCustomer" data-uid="lnk30" id="link_Customer_CriticCustomer">
+      <path d="M 1576.67,755.00 L 1380.18,560.84" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="1367.38,548.19 1384.40,556.57 1375.97,565.11" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+    <g class="link" data-entity-1="Customer" data-entity-2="Table" data-uid="lnk31" id="link_Customer_Table">
+      <path d="M 1060.00,514.86 L 975.80,576.92" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <text x="900" y="525" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">occupant / table</text>
+      <text x="1020" y="505" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">0..1</text>
+      <text x="986" y="605" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">0..1</text>
+    </g>
+    <g class="link" data-entity-1="Customer" data-entity-2="Order" data-uid="lnk32" id="link_Customer_Order">
+      <path d="M 1394.19,484.10 L 1470.00,484.10" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="1380.19,484.10 1387.19,479.60 1394.19,484.10 1387.19,488.60" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="1407" y="474" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">order</text>
+      <text x="1428" y="506" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">0..1</text>
+    </g>
+    <g class="link" data-entity-1="Order" data-entity-2="MenuItemInterface" data-uid="lnk33" id="link_Order_MenuItemInterface">
+      <path d="M 1675.39,548.19 L 1675.39,607.00" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" />
+      <polygon points="1675.39,614.00 1671.39,604.00 1675.39,607.00 1679.39,604.00" fill="#263238" stroke="#263238" stroke-width="1.25" />
+      <text x="1686" y="586" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">item</text>
+      <text x="1686" y="602.0" fill="#263238" font-family="sans-serif" font-size="16.25" paint-order="stroke" stroke="white" stroke-width="4" stroke-linejoin="round">1</text>
+    </g>
+    <g class="link" data-entity-1="MenuItemInterface" data-entity-2="MenuItem" data-uid="lnk34" id="link_MenuItemInterface_MenuItem">
+      <path d="M 1675.18,835.00 L 1675.18,745.05" fill="none" stroke="#263238" stroke-width="1.25" stroke-linejoin="round" stroke-dasharray="8.75 8.75" />
+      <polygon points="1675.18,727.05 1681.18,745.05 1669.18,745.05" fill="white" stroke="#263238" stroke-width="1.25" />
+    </g>
+  </g>
+</svg>

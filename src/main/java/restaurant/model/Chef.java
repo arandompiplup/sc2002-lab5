@@ -12,6 +12,7 @@ public final class Chef extends Staff {
         if (customer == null) {
             throw new IllegalArgumentException("Customer cannot be null.");
         }
+
         Order order = customer.getOrder();
         if (order == null) {
             throw new IllegalArgumentException("There is no order to prepare.");
