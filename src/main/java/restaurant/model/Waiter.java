@@ -1,7 +1,8 @@
 package restaurant.model;
 
-public final class Waiter extends Staff {
+public final class Waiter extends Staff implements Seating {
 
+    @Override
     public void seat(Customer customer, Table table) {
         requireAvailable();
         table.seat(customer);

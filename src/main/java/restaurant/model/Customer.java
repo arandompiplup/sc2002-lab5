@@ -128,6 +128,20 @@ public abstract class Customer {
         return order.getBillCents();
     }
 
+    public final void recoverDuringHappyHour() {
+        if (state == State.WAITING || state == State.SEATED) {
+            recoverSatisfaction(15);
+        }
+    }
+
+    public final void recoverSatisfaction(int points) {
+        if (points < 0) {
+            throw new IllegalArgumentException("Recovery points cannot be negative.");
+        }
+
+        satisfaction += Math.min(points, 100 - satisfaction);
+    }
+
     public void waitAtTurnEnd() {
         if (state != State.WAITING && state != State.SEATED) {
             return;

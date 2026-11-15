@@ -3,7 +3,15 @@ package restaurant.game;
 import java.util.List;
 
 public interface RestaurantGameInterface {
-    void startTurn();
+    default void startTurn() {
+        startTurn(false);
+    }
+
+    void startTurn(boolean activateHappyHour);
+
+    boolean canActivateHappyHour();
+
+    int happyHourTurnsRemaining();
 
     void seat(int customerId, int tableNumber);
 
@@ -12,6 +20,8 @@ public interface RestaurantGameInterface {
     void serve(int customerId);
 
     void prepare(int customerId);
+
+    void waitHost();
 
     void waitWaiter();
 
